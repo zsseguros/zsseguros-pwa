@@ -1,7 +1,9 @@
-import * as React from 'react';
-import './App.css';
+import * as React from "react";
+import "./css/App.css";
+import { Switch, Route } from "react-router-dom";
+import Login from './scenes/LoginScene';
 
-const logo = require('./logo.svg');
+const logo = require("./css/logo.svg");
 
 class App extends React.Component {
   render() {
@@ -11,9 +13,23 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <div className="container">
+        
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() => {
+                return(
+                  <p className="App-intro">
+                    Você é <i> <a className="login-link" href="/login/cliente">segurado</a> </i> ou <a className="login-link" href="/login/corretor">corretor</a> ?
+                  </p>                
+                );
+              }}
+            />
+            <Route path="/login" component={Login} />
+          </Switch>
+        </div>
       </div>
     );
   }
