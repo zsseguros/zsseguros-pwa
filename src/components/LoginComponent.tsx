@@ -43,12 +43,9 @@ class Login extends React.Component<any, LoginState>{
   }
 
   componentWillReceiveProps(nextProps){
-    if ( this.props.userInfo === null && nextProps.userInfo !== null ) {
-      this.setState({
-        isLogingIn: !this.state.isLogingIn
-      });
+    if ( nextProps.userInfo !== null ) {
       
-      this.props.history.push(this.state.userType === 0 ? '/login/cliente' : '/login/corretor');
+      
     }
 
     if ( this.props.userInfo === null && nextProps.userInfo === null ) {
@@ -76,25 +73,40 @@ class Login extends React.Component<any, LoginState>{
 
     this.setState({
       isLogingIn: !this.state.isLogingIn
+    }, () => {
+      fbLogin(this.state.payload.login, this.state.payload.password, (userInfo) => {
+  
+        if ( userInfo.email ) {
+          
+          this.props.saveUser(userInfo);
+  
+          localStorage.setItem("idToken", userInfo.getIdToken(false));
+
+          swal({
+            type: 'success',
+            title: 'logged in!'
+          }).then( (confirm) => {
+            if (confirm.value) {
+              this.props.history.push(this.state.userType === 0 ? '/cliente' : '/corretor');
+            }
+          });
+
+        } else {
+
+          this.setState({
+            isLogingIn: !this.state.isLogingIn
+          });
+
+          swal({
+            type: 'error',
+            title: 'Falha no login!',
+            text: 'Usuário não encontrado!'
+          });
+        }
+  
+      });
     });
 
-    fbLogin(this.state.payload.login, this.state.payload.password, (userInfo) => {
-
-      if ( userInfo ) {
-        console.log(userInfo);
-        
-        this.props.saveUser(userInfo);
-
-        localStorage.setItem("idToken", userInfo.getIdToken(false));
-      } else {
-        swal({
-          type: 'error',
-          title: 'Falha no login!',
-          text: 'Usuário não encontrado!'
-        });
-      }
-
-    });
   }
 
   handleSubmitSignUp(e: any){

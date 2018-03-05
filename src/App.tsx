@@ -15,6 +15,7 @@ const logo = require("./css/logo.svg");
 class App extends React.Component {
 
   componentDidMount(){
+    
   }
 
   render() {
