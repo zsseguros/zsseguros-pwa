@@ -1,7 +1,7 @@
 import types from '../actionTypes';
 
 const LOGIN_STATE = {
-  uid: null
+  user: null
 };
 
 export const login = (state = LOGIN_STATE, action) => {
@@ -9,7 +9,7 @@ export const login = (state = LOGIN_STATE, action) => {
     case types.SAVE_UID:
       return {
         ...state,
-        uidToken: action.uidToken
+        user: action.uidToken
       }
   
     default:

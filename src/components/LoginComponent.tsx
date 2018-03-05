@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {withRouter} from 'react-router';
-import {fbLogin} from '../APIs/firebase';
+import {withRouter} from 'react-router-dom';
+import {fbLogin, fbSignUp} from '../APIs/firebase';
 import {connect} from 'react-redux';
-import { saveUid } from '../actions/loginActions';
+import { saveUser } from '../actions/loginActions';
 import swal from 'sweetalert2';
-import {Link} from 'react-router-dom';
+import {Link, Router} from 'react-router-dom';
 
 interface LoginState {
   userType: number;
@@ -12,7 +12,7 @@ interface LoginState {
     login: string;
     password: string;
   };
-
+  isLogingIn: boolean;
 }
 
 class Login extends React.Component<any, LoginState>{
@@ -25,12 +25,13 @@ class Login extends React.Component<any, LoginState>{
       payload: {
         login: '',
         password: ''
-      }
+      },
+      isLogingIn: false
     }
   }
 
   componentDidMount(){
-    if ( this.props.location.pathname.indexOf("/cliente") ) {
+    if ( this.props.location.pathname.indexOf("/login/cliente") > -1 ) {
       this.setState({
         userType: 0
       });
@@ -42,8 +43,18 @@ class Login extends React.Component<any, LoginState>{
   }
 
   componentWillReceiveProps(nextProps){
-    if ( !this.props.uidToken && nextProps.uidToken !== null ) {
-      this.props.history.push(this.state.userType === 0 ? '/cliente' : '/corretor');
+    if ( this.props.userInfo === null && nextProps.userInfo !== null ) {
+      this.setState({
+        isLogingIn: !this.state.isLogingIn
+      });
+      
+      this.props.history.push(this.state.userType === 0 ? '/login/cliente' : '/login/corretor');
+    }
+
+    if ( this.props.userInfo === null && nextProps.userInfo === null ) {
+      this.setState({
+        isLogingIn: false
+      });
     }
   }
 
@@ -63,20 +74,18 @@ class Login extends React.Component<any, LoginState>{
   handleSubmit(e: any){
     e.preventDefault();
 
+    this.setState({
+      isLogingIn: !this.state.isLogingIn
+    });
+
     fbLogin(this.state.payload.login, this.state.payload.password, (userInfo) => {
 
       if ( userInfo ) {
-        userInfo.getIdToken(true).then( (idToken: any) => {
-          this.props.saveUid(idToken);
-        })
-        .catch( (error) => {
-  
-          swal({
-            type: 'error',
-            title: 'Oops...',
-            text: 'Error: '+error
-          });
-        });
+        console.log(userInfo);
+        
+        this.props.saveUser(userInfo);
+
+        localStorage.setItem("idToken", userInfo.getIdToken(false));
       } else {
         swal({
           type: 'error',
@@ -88,8 +97,51 @@ class Login extends React.Component<any, LoginState>{
     });
   }
 
+  handleSubmitSignUp(e: any){
+    e.preventDefault();
+
+    this.setState({
+      isLogingIn: !this.state.isLogingIn
+    });
+
+    fbSignUp(this.state.payload.login, this.state.payload.password, (response) => {
+
+      if ( response ) {
+        swal({
+          type: 'success',
+          title: 'Cadastrado sucesso!',
+          confirmButtonText: 'LOGIN',
+          cancelButtonText: 'SAIR',
+          showCancelButton: true,
+
+        }).then( (action) => {
+          if (action.value) {
+            this.props.history.push('/');
+          }
+
+          this.setState({
+            isLogingIn: !this.state.isLogingIn
+          });
+
+        });
+
+      } else {
+        swal({
+          type: 'error',
+          title: 'Oops... algo deu errado!',
+        });
+
+        this.setState({
+          isLogingIn: !this.state.isLogingIn
+        });
+
+      }
+
+    });
+  }
+
   render(){
-    if ( this.props.location.pathname.indexOf('cliente') > -1 ) {
+    if ( this.props.location.pathname.indexOf('/login/cliente') > -1 ) {
       return(
         <div className="row">
         <div className="row">
@@ -119,13 +171,15 @@ class Login extends React.Component<any, LoginState>{
                 <label htmlFor="exampleInputPassword1">Senha</label>
                 <input type="password" className="form-control" id="exampleInputPassword1" name="password" placeholder="Password" onChange={(e: any) => this.handleChange(e)} />
               </div>
-              <button type="submit" className="btn btn-primary">ENTRAR</button>
+              <button type="submit" className="btn btn-primary" disabled={this.state.isLogingIn}>{this.state.isLogingIn ? 'AGUARDE...' : 'ENTRAR'}</button> <br/>
+              <b> <Link to="/signup" >Cadastrar-me</Link> </b><br/>
+              <b> <Link to="/" >Voltar</Link> </b>
             </form>
           </div>
         </div>
         </div>
       );
-    } else {
+    } else if ( this.props.location.pathname.indexOf("/login/corretor") > -1 ) {
       return(
         <div className="row">
           <div className="col-md-6 col-md-push-3">
@@ -138,20 +192,40 @@ class Login extends React.Component<any, LoginState>{
                 <label htmlFor="exampleInputPassword1">Senha</label>
                 <input type="password" className="form-control" id="exampleInputPassword1" name="password" placeholder="Password" onChange={(e: any) => this.handleChange(e)} />
               </div>
-              <button type="submit" className="btn btn-primary">ENTRAR</button>
+              <button type="submit" className="btn btn-primary" disabled={this.state.isLogingIn}>{this.state.isLogingIn ? 'AGUARDE...' : 'ENTRAR'}</button><br />
+              <b> <Link to="/" >Voltar</Link> </b>
             </form>
           </div>
         </div>
       );
       
+    } else {
+      return(
+        <div className="row">
+          <div className="col-md-6 col-md-push-3">
+            <form onSubmit={(e: any)=> this.handleSubmitSignUp(e)}>
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">Email</label>
+                <input type="email" className="form-control" id="exampleInputEmail1" name="login" aria-describedby="emailHelp" placeholder="Enter email" onChange={(e: any) => this.handleChange(e)} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="exampleInputPassword1">Senha</label>
+                <input type="password" className="form-control" id="exampleInputPassword1" name="password" placeholder="Password" onChange={(e: any) => this.handleChange(e)} />
+              </div>
+              <button type="submit" className="btn btn-primary" disabled={this.state.isLogingIn}>{this.state.isLogingIn ? 'AGUARDE...' : 'CADASTRAR'}</button><br />
+              <b> <Link to="/" >Voltar</Link> </b>
+            </form>
+          </div>
+        </div>
+      );
     }
   }
 }
 
 const mapStateToProps = (state: any) => {
   return {
-    uidToken: state.login.uidToken
+    userInfo: state.login.user
   }
 }
 
-export default withRouter(connect(mapStateToProps, {saveUid})(Login));
+export default withRouter(connect(mapStateToProps, {saveUser})(Login));

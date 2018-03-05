@@ -1,8 +1,8 @@
 import types from '../actionTypes';
 
-export const saveUid = (uidToken: string) => {
+export const saveUser = (user: any) => {
   return {
     type: types.SAVE_UID,
-    uidToken
+    user
   }
 };

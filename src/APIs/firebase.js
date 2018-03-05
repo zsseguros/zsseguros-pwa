@@ -18,6 +18,18 @@ export const fbLogin = (email, psw, next) => {
       next(firebase.auth().currentUser);
     })
     .catch( (error) => {
-      next(null);
+      next(error);
     });
 };
+
+export const fbSignUp = (email, psw, next) => {
+  firebase.auth().createUserWithEmailAndPassword(email, psw)
+    .then( (response) => {
+      console.log(response);
+
+      next(true);
+    })
+    .catch( (error) => {
+      next(null);
+    });
+}
