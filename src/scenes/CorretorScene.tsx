@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import CorretorOptions from '../components/CorretorOptions';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, withRouter} from 'react-router-dom';
+import InsertCliente from './InsertClienteScene';
 
 class Corretor extends React.Component<any, any>{
   render(){
@@ -9,6 +10,7 @@ class Corretor extends React.Component<any, any>{
       <div className="row">
         <Switch>
           <Route exact path="/corretor" component={CorretorOptions}/>
+          <Route path="/corretor/incluirCliente" component={InsertCliente}/>
         </Switch>
       </div>
     );
@@ -21,4 +23,4 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-export default connect(mapStateToProps, null)(Corretor);
+export default withRouter(connect(mapStateToProps, null)(Corretor));
