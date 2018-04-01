@@ -8,6 +8,8 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import {Provider} from 'react-redux';
 import wholeState from './reducers/index';
 import thunk from 'redux-thunk';
+import 'bootstrap/dist/css/bootstrap.min.js';
+
 const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose;
 
 const store = createStore(wholeState, composeEnhancers(applyMiddleware(thunk)));
