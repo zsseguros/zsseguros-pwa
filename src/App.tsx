@@ -15,7 +15,7 @@ const logo = require("./css/logo.svg");
 class App extends React.Component {
 
   componentDidMount(){
-    $('.App-intro').modal('show');
+
   }
 
   render() {
@@ -23,21 +23,21 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">ZSSEGUROS</h1>
         </header>
         <div className="container-fluid">
-        
+
           <Switch>
             <Route
               exact
               path="/"
               render={() => {
                 return(
-                  <p className="App-intro">
+                  <p className="App-intro row">
                     Eu sou: 
                     {/* <Link className="link" to="/login/cliente"  ><button className="btn btn-info" >SEGURADO</button></Link> */}
                     <Link className="link" to="/login/corretor" ><button className="btn btn-info" >CORRETOR</button></Link>
-                  </p>            
+                  </p>
                 );
               }}
             />

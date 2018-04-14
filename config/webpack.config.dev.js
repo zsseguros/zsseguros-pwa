@@ -255,7 +255,9 @@ module.exports = {
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
-      jQuery: 'jquery'
+      jQuery: 'jquery',
+      Popper: 'popper.js',
+      Util: 'bootstrap/js/dist/util'
     })
   ],
   // Some libraries import Node modules but don't use them in the browser.
