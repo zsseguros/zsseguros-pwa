@@ -33,7 +33,7 @@ class App extends React.Component {
               path="/"
               render={() => {
                 return(
-                  <p className="App-intro row">
+                  <p className="App-intro">
                     Eu sou: 
                     {/* <Link className="link" to="/login/cliente"  ><button className="btn btn-info" >SEGURADO</button></Link> */}
                     <Link className="link" to="/login/corretor" ><button className="btn btn-info" >CORRETOR</button></Link>

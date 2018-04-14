@@ -29,3 +29,8 @@ body {
   margin: 0px;
   padding: 10px;
 }
+
+div.container-fluid {
+  background-color: rgba(0, 130, 200, 0.3);
+  height: 100vh;
+}

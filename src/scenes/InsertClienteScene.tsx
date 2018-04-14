@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { ClientInserForm, ContactInsertForm } from '../components/InsertForms';
+import swal from 'sweetalert2';
 
 interface InsertClienteState {
   formData: {
-    cod_cliente: string,
     cod_corretor: string,
     nome: string,
     sobrenome: string,
@@ -15,12 +15,14 @@ interface InsertClienteState {
     cpf: string,
     rg: string,
     logradouro: string,
-    nrEndereco: string,
+    numero: string,
     bairro: string,
+    cep: string,
     cidade: string,
     uf: string,
     cod_apolice?: string
-    uf_list: Array<string>    
+    uf_list: Array<string>,
+    complemento_endereco: string
   },
   step: number,
   isPosting: boolean,
@@ -34,7 +36,6 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
 
     this.state = {
       formData: {
-        cod_cliente: '',
         cod_corretor: 'A5269J',
         nome: '',
         sobrenome: '',
@@ -43,12 +44,14 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
         cpf: '',
         rg: '',
         logradouro: '',
-        nrEndereco: '',
+        numero: '',
         bairro: '',
+        cep: '',
         cidade: '',
-        uf: '',
+        uf: 'SP',
         cod_apolice: '',
-        uf_list: ['SP', 'RJ', 'PR', 'MG', 'MS', 'MT', 'BA'],        
+        uf_list: ['SP', 'RJ', 'PR', 'MG', 'MS', 'MT', 'BA'],
+        complemento_endereco: ''    
       },
       step: 0,
       isPosting: false,
@@ -57,22 +60,35 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
     }
   }
 
+  componentDidUpdate(pevProps, prevState){
+
+    if ( prevState.isPosting && !this.state.isPosting && this.state.postSuccess ) {
+      // this.setState({
+      //   step: 1
+      // });
+      this.props.history.push('/corretor')
+    }
+    
+  }
+
   buildPayload(){
     return {
-      cod_cliente: this.state.formData.cod_cliente,
+      cod_cliente: this.state.formData.cpf.replace('.', ''),
       cod_corretor: 'A5269J',
       nome: this.state.formData.nome,
       sobrenome: this.state.formData.sobrenome,
       dt_nascimento: this.state.formData.dt_nascimento,
-      genero: this.state.formData.genero,
       cpf: this.state.formData.cpf,
       rg: this.state.formData.rg,
       logradouro: this.state.formData.logradouro,
-      nrEndereco: this.state.formData.nrEndereco,
+      numero: this.state.formData.numero,
       bairro: this.state.formData.bairro,
+      cep: this.state.formData.cep,
       cidade: this.state.formData.cidade,
       uf: this.state.formData.uf,
-      cod_apolice: this.state.formData.cod_apolice,      
+      cod_apolice: this.state.formData.cod_apolice,
+      complemento_endereco: this.state.formData.complemento_endereco,
+      genero: this.state.formData.genero,
     }
   }
 
@@ -99,33 +115,43 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
 
     const instance = axios.create({
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       }
     });
 
-    const request = instance.post(`http://localhost:8581/api/clientes/insere`, payload);
+    const request = instance.post(`http://localhost:8383/clientes/insere`, payload);
 
     request.then( (response: any) => {
-      this.setState({
-        isPosting: false,
-        postSuccess: response,
-        postError: null
+
+      swal({
+        type: 'success',
+        title: 'Sucesso!',
+        text: 'Cliente adicionado com sucesso, retorne para o painel principal.',
+      }).then( (confirm) => {
+        if ( confirm ) {
+          this.setState({
+            isPosting: false,
+            postSuccess: response,
+            postError: null            
+          });
+        }
       });
+
     })
     .catch( (error: any) => {
       this.setState({
         isPosting: false,
         postError: error,
         postSuccess: null
-      })
+      });
     });
   }
 
   handleSubmit(e: any){
     e.preventDefault();
 
-    // this.postCliente(this.buildPayload());
-    console.log(this.buildPayload());
+    this.postCliente(this.buildPayload());
+    // console.log(this.buildPayload());
   }
 
   showForms(state: InsertClienteState){
@@ -133,7 +159,7 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
       case 0:
         return <ClientInserForm uf_list={this.state.formData.uf_list || []} formData={state.formData} handleChange={(e) => this.handleChange(e)} handleSubmit={(e) => this.handleSubmit(e)} isPosting={this.state.isPosting} />
       case 1:
-        return <ContactInsertForm handleChange={(e) => this.handleChange(e)} handleSubmit={(e) => this.handleSubmit(e)} isPosting={this.state.isPosting} />
+        // return <ContactInsertForm handleChange={(e) => this.handleChange(e)} handleSubmit={(e) => this.handleSubmit(e)} isPosting={this.state.isPosting} />
       default:
         return null
     }
