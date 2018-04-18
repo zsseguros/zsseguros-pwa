@@ -16,23 +16,32 @@ class ListCliente extends React.Component<any, any>{
 
   componentDidMount(){
     this.props.getListClientsRequest();
+    swal({
+      title: 'AGUARDE!',
+      type: 'info',
+      text: 'Buscando seus clientes...',
+      onOpen: () => {
+        swal.showLoading()
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps){
-    if ( this.props.isGettingList && !this.props.getListSuccess ) {
-      swal({
-        title: 'AGUARDE!',
-        type: 'info',
-        text: 'Buscando seus clientes...',
-        onOpen: () => {
-          swal.showLoading()
-        }
-      });
-    }
-
     if ( this.props.isGettingList && !nextProps.isGettingList ) {
       swal.close();
+
+      if ( nextProps.getListError ) {
+        swal({
+          title: 'Oops...',
+          type: 'error',
+          text: 'Não foi possível buscar uma lista de clientes, certifique-se de que você está conectado à internet!',
+        });
+      }
     }
+  }
+
+  componentWillUnmount(){
+    swal.close();
   }
 
   render(){
@@ -65,7 +74,7 @@ class ListCliente extends React.Component<any, any>{
                           this.props.getListSuccess.rows.map( (client, index) => {
                             return(
                               <tr key={index} > 
-                                <td> <Link to={`/cliente/${client.cod_cliente}`} style={{ border: '0px' }} > { client.cod_cliente } </Link> </td>
+                                <td className="badge badge-light" > <Link to={`/corretor/cliente/${client.cod_cliente}`} style={{ border: '0px' }} > { client.cod_cliente } </Link> </td>
                                 <td> {client.nome+" "+client.sobrenome} </td>
                                 <td> { client.cpf } </td>
                                 <td> { client.rg } </td>
@@ -86,7 +95,7 @@ class ListCliente extends React.Component<any, any>{
                                       }
                                   });
                                 }} >DELETAR</button> </td>
-                                <td> <Link to={`/corretor/apolice/incluirApolice/:${client.cod_cliente}`} > Adicionar Apólice </Link> </td>
+                                <td> <Link to={`/corretor/incluirApolice?cod_cliente${client.cod_cliente}`} > Adicionar Apólice </Link> </td>
                               </tr>                      
                             )
                           })

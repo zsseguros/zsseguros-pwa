@@ -13,11 +13,14 @@ import 'bootstrap';
 import './styles/sb-admin.min.css';
 import './styles/datatables/dataTables.bootstrap4.css';
 
-
-
 const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose;
 
 const store = createStore(wholeState, composeEnhancers(applyMiddleware(thunk)));
+
+const subscriber = store.subscribe(() => {
+  let serializedState = JSON.stringify(store.getState());
+  console.log("Serialized", serializedState, store.getState())
+});
 
 ReactDOM.render(
   <Provider store={store}>

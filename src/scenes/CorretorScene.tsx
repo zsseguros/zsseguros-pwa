@@ -5,6 +5,7 @@ import {Switch, Route, withRouter} from 'react-router-dom';
 import InsertCliente from './InsertClienteScene';
 import ListClientes from './ListClientes';
 import InsertApolice from './InsertApolice';
+import ListApolices from './ListApolices';
 
 class Corretor extends React.Component<any, any>{
   render(){
@@ -12,10 +13,11 @@ class Corretor extends React.Component<any, any>{
       <div className="row justify-content-center" style={{ width: '100vw' }} >
         <Switch>
           <Route exact path="/corretor" component={CorretorOptions}/>
-          <Route exact path="/corretor/incluirCliente" component={InsertCliente}/>
-          <Route exact path="/corretor/listarClientes" component={ListClientes}/>
-          <Route exact path="/corretor/:clientId" component={ListClientes}/>
-          <Route exact path="/corretor/apolice/incluirApolice" component={InsertApolice}/>
+          <Route exact path="/corretor/incluirCliente" component={InsertCliente} />
+          <Route exact path="/corretor/listarClientes" component={ListClientes} />
+          <Route exact path="/corretor/cliente/:clientId" component={ListClientes} />
+          <Route exact path="/corretor/incluirApolice" component={InsertApolice} />
+          <Route exact path="/corretor/listarApolices" component={ListApolices} />
         </Switch>
       </div>
     );

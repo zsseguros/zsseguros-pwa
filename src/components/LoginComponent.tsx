@@ -45,7 +45,6 @@ class Login extends React.Component<any, LoginState>{
   componentWillReceiveProps(nextProps){
     if ( nextProps.userInfo !== null ) {
       
-      
     }
 
     if ( this.props.userInfo === null && nextProps.userInfo === null ) {
@@ -75,12 +74,16 @@ class Login extends React.Component<any, LoginState>{
       isLogingIn: !this.state.isLogingIn
     }, () => {
       fbLogin(this.state.payload.login, this.state.payload.password, (userInfo) => {
-  
+        // Firebase login callback
         if ( userInfo.email ) {
           
           this.props.saveUser(userInfo);
-  
-          localStorage.setItem("idToken", userInfo.getIdToken(false).then( (token) => JSON.stringify(token)).catch( (error) => '') );
+          
+          userInfo.getIdToken(false).then( (token) => {
+
+            localStorage.setItem("token", JSON.stringify(token));
+
+          }).catch( (error) => '')
           localStorage.setItem("loggedIn", 'true' );
 
           swal({

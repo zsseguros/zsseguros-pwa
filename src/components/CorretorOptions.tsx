@@ -43,13 +43,13 @@ const CorretorOptions = (props: any) => {
                 Gerencie suas apólices
               </p>
               <button className="btn btn-primary m-1">
-                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/apolice/listarApolice">Listar apólices</Link>
+                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/listarApolices">Listar apólices</Link>
               </button>
               <button className="btn btn-primary m-1">
-                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/apolice/incluirApolice">Adicionar apólice</Link>
+                <Link style={{ color: '#ffffff', margin: '0px' }} to={`/corretor/incluirApolice?cod_cliente=${null}`}>Adicionar apólice</Link>
               </button>
               <button className="btn btn-primary m-1">
-                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/apolice/atualizarApolice">Atualizar apólice</Link>
+                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/atualizarApolice">Atualizar apólice</Link>
               </button>
             </div>
           </div>

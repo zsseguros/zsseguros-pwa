@@ -1,19 +1,21 @@
 import * as React from "react";
-import { Switch, Route } from "react-router-dom";
 import Login from "./scenes/LoginScene";
-import { Link } from "react-router-dom";
 import Corretor from "./scenes/CorretorScene";
-import { connect } from "react-redux";
 import { saveUser } from "./actions/loginActions";
 import SignUpScene from "./scenes/SignUpScene";
 import SignUp from "./scenes/SignUpScene";
-import { withRouter } from "react-router-dom";
 import NavBar from './components/NavBar';
+import swal from 'sweetalert2';
+import { connect } from "react-redux";
+import { Switch, Route, Link, withRouter } from "react-router-dom";
 
 class App extends React.Component<any, any> {
   componentDidMount() {
-    if ( this.props.location.pathname.indexOf('login') < 0 ) {
+    if ( !localStorage.getItem('token') ) {
       this.props.history.push('/login/corretor');
+    } else {
+      this.props.saveUser( localStorage.getItem('token') );
+      this.props.history.push('/corretor');
     }
   }
 

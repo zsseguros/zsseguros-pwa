@@ -58,8 +58,53 @@ class InsertApolice extends React.Component<any, InsertApoliceState>{
   }
 
   componentDidMount(){
-    console.log(moment.now() - moment.now(), moment().format("YYYY-DD-MM"));
+
+    swal({
+      title: 'AGUARDE!',
+      type: 'info',
+      text: 'Buscando suas apolices...',
+      onOpen: () => {
+      swal.showLoading()
+      }
+    });
+
     this.props.getListClientsRequest();
+  }
+
+  componentWillReceiveProps(nextProps){
+    if ( this.props.isGettingList && !nextProps.isGettingList ) {
+      swal.close();
+
+      if ( nextProps.getListError ) {
+        swal({
+          title: 'Oops...',
+          type: 'error',
+          text: 'Não foi possível buscar uma lista de clientes, certifique-se de que você está conectado à internet!',
+          showConfirmButton: true,
+          confirmButtonText: 'VOLTAR'
+        }).then( (confirm) => {
+          if (confirm.value){
+            this.props.history.push('/corretor');
+          }
+        });
+      }
+
+      const cod_cliente = this.props.location.search.split("=")[1];
+
+      if ( nextProps.getListSuccess && cod_cliente !== 'null' ) {
+
+        const selectedClient = nextProps.getListSuccess.rows.filter( (element) => element.cod_cliente === cod_cliente )[0];
+
+        this.setState({
+          step: 1,
+          formData: {
+            ...this.state.formData,
+            cod_cliente: selectedClient.cod_cliente || 0,
+            nome: selectedClient.nome || 'N/A'
+          }
+        });
+      }
+    }
   }
 
   componentDidUpdate(pevProps, prevState){
@@ -73,6 +118,10 @@ class InsertApolice extends React.Component<any, InsertApoliceState>{
     
   }
 
+  componentWillUnmount(){
+    swal.close();
+  }
+
   handleClientSelect(e: any){
     this.setState({
       selectedClient: e.target.value
@@ -81,12 +130,15 @@ class InsertApolice extends React.Component<any, InsertApoliceState>{
 
   handleClientChoose(){
     if ( this.state.selectedClient !== 0 ) {
+
+      const selectedClient = this.props.getListSuccess.rows.filter( (element) => element.nome === this.state.selectedClient && element.sobrenome === this.state.selectedClient )[0];
+
       this.setState({
         step: 1,
         formData: {
           ...this.state.formData,
-          cod_cliente: this.props.getListSuccess.rows.filter( (element) => element.nome === this.state.selectedClient )[0].cod_cliente,
-          nome: this.props.getListSuccess.rows.filter( (element) => element.nome === this.state.selectedClient )[0].nome
+          cod_cliente: selectedClient.cod_cliente || 0,
+          nome: selectedClient.nome || ''
         }
       });
     }
@@ -122,7 +174,6 @@ class InsertApolice extends React.Component<any, InsertApoliceState>{
   }
 
   postApolice(payload: any){
-console.log("payload", payload)
     
     this.setState({
       isPosting: true,
@@ -174,11 +225,11 @@ console.log("payload", payload)
   showForms(state: InsertApoliceState){
     switch (state.step) {
       case 0:
-        return <SelectClientScene clientList={ this.props.getListSuccess && this.props.getListSuccess.rows ? this.props.getListSuccess.rows : []} handleChange={(e: any) => this.handleClientSelect(e) } handleClientChoose={(e: any) => this.handleClientChoose()} /> 
+        return <SelectClientScene clientList={ this.props.getListSuccess && this.props.getListSuccess.rows ? this.props.getListSuccess.rows : []} handleChange={(e: any) => this.handleClientSelect(e) } handleClientChoose={(e: any) => this.handleClientChoose()} />;
       case 1:
-      return <ApoliceInsertForm formData={state.formData} handleChange={(e) => this.handleChange(e)} handleSubmit={(e) => this.handleSubmit(e)} isPosting={this.state.isPosting} />
+        return <ApoliceInsertForm formData={state.formData} handleChange={(e) => this.handleChange(e)} handleSubmit={(e) => this.handleSubmit(e)} isPosting={this.state.isPosting} />;
       default:
-        return null
+        return null;
     }
   }
 
