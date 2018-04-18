@@ -66,14 +66,14 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
       // this.setState({
       //   step: 1
       // });
-      this.props.history.push('/corretor')
+      this.props.history.push('/corretor');
     }
     
   }
 
   buildPayload(){
     return {
-      cod_cliente: this.state.formData.cpf.replace('.', ''),
+      cod_cliente: this.state.formData.cpf.replace('.', '').replace('-', ''),
       cod_corretor: 'A5269J',
       nome: this.state.formData.nome,
       sobrenome: this.state.formData.sobrenome,
