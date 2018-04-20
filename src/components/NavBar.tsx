@@ -29,10 +29,10 @@ const NavBar = (props: any) => {
             data-placement="right"
             title="Dashboard"
           >
-            <a className="nav-link" href="index.html">
-              <i className="fas fa-columns" />
-              <span className="nav-link-text">Dashboard</span>
-            </a>
+            <Link to="/corretor">
+              <i className="fas fa-columns mx-1" />
+              <span className="nav-link-text text-light mx-1">Dashboard</span>
+            </Link>
           </li>
 
           <li
@@ -59,56 +59,6 @@ const NavBar = (props: any) => {
               </li>
               <li>
                 <a href="cards.html">Cards</a>
-              </li>
-            </ul>
-          </li>
-          <li
-            className="nav-item"
-            data-toggle="tooltip"
-            data-placement="right"
-            title="Menu Levels"
-          >
-            <a
-              className="nav-link nav-link-collapse collapsed"
-              data-toggle="collapse"
-              href="#collapseMulti"
-              data-parent="#exampleAccordion"
-            >
-              <i className="fa fa-fw fa-sitemap" />
-              <span className="nav-link-text">Menu Levels</span>
-            </a>
-            <ul className="sidenav-second-level collapse" id="collapseMulti">
-              <li>
-                <a href="#">Second Level Item</a>
-              </li>
-              <li>
-                <a href="#">Second Level Item</a>
-              </li>
-              <li>
-                <a href="#">Second Level Item</a>
-              </li>
-              <li>
-                <a
-                  className="nav-link-collapse collapsed"
-                  data-toggle="collapse"
-                  href="#collapseMulti2"
-                >
-                  Third Level
-                </a>
-                <ul
-                  className="sidenav-third-level collapse"
-                  id="collapseMulti2"
-                >
-                  <li>
-                    <a href="#">Third Level Item</a>
-                  </li>
-                  <li>
-                    <a href="#">Third Level Item</a>
-                  </li>
-                  <li>
-                    <a href="#">Third Level Item</a>
-                  </li>
-                </ul>
               </li>
             </ul>
           </li>

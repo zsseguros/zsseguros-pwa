@@ -6,7 +6,7 @@ import { ApoliceInsertForm } from '../components/InsertForms';
 import swal from 'sweetalert2';
 import * as moment from 'moment';
 import SelectClientScene from './SelectClientScene';
-import { getListClientsRequest } from '../actions/clientsActions';
+import { getListClientsRequest } from 'appSrc/actions/clientsActions';
 
 interface InsertApoliceState {
   formData: {
@@ -124,21 +124,21 @@ class InsertApolice extends React.Component<any, InsertApoliceState>{
 
   handleClientSelect(e: any){
     this.setState({
-      selectedClient: e.target.value
-    })
+      selectedClient: this.props.getListSuccess.rows.find( (element) => element.nome === e.target.value )
+    });
   }
 
   handleClientChoose(){
-    if ( this.state.selectedClient !== 0 ) {
+    if ( this.state.selectedClient ) {
 
-      const selectedClient = this.props.getListSuccess.rows.filter( (element) => element.nome === this.state.selectedClient && element.sobrenome === this.state.selectedClient )[0];
+      // const selectedClient = this.props.getListSuccess.rows.find( (element) => element.nome === this.state.selectedClient.nome );
 
       this.setState({
         step: 1,
         formData: {
           ...this.state.formData,
-          cod_cliente: selectedClient.cod_cliente || 0,
-          nome: selectedClient.nome || ''
+          cod_cliente: this.state.selectedClient.cod_cliente || 0,
+          nome: this.state.selectedClient.nome || ''
         }
       });
     }
@@ -225,7 +225,7 @@ class InsertApolice extends React.Component<any, InsertApoliceState>{
   showForms(state: InsertApoliceState){
     switch (state.step) {
       case 0:
-        return <SelectClientScene clientList={ this.props.getListSuccess && this.props.getListSuccess.rows ? this.props.getListSuccess.rows : []} handleChange={(e: any) => this.handleClientSelect(e) } handleClientChoose={(e: any) => this.handleClientChoose()} />;
+        return <SelectClientScene selectedClient={state.selectedClient} clientList={ this.props.getListSuccess && this.props.getListSuccess.rows ? ["", ...this.props.getListSuccess.rows] : []} handleChange={(e: any) => this.handleClientSelect(e) } handleClientChoose={(e: any) => this.handleClientChoose()} />;
       case 1:
         return <ApoliceInsertForm formData={state.formData} handleChange={(e) => this.handleChange(e)} handleSubmit={(e) => this.handleSubmit(e)} isPosting={this.state.isPosting} />;
       default:

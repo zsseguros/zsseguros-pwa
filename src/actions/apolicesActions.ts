@@ -28,7 +28,7 @@ export const getApolicesListRequest = () => {
         }
     });
 
-    const request = instance.get(`http://localhost:8383/clientes/lista`);
+    const request = instance.get(`http://localhost:8383/apolices/lista`);
 
     return (dispatch: any) => {
         dispatch(getApolicesList());

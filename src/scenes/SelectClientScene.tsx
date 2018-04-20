@@ -8,7 +8,7 @@ const SelectClientScene = (props: any) => {
         <div className="card">
 
           <div className="card-header">
-            Associe a nova apólice a um dos clientes:
+            Associe a nova apólice a um dos clientes
           </div>
 
           <div className="card-body">
@@ -16,7 +16,7 @@ const SelectClientScene = (props: any) => {
             <form onSubmit={(e: any) => e.preventDefault()} className="form-inline">
               <div className="form-group">
                 <label htmlFor="selectClient" className="mx-3" >
-                  Do cliente:
+                  Associar ao cliente:
                 </label>
                 <select name="selectedClient" className="custom-select mx-3" id="selectClient" onChange={(e: any) => props.handleChange(e)} >
                   {
@@ -36,7 +36,7 @@ const SelectClientScene = (props: any) => {
                 </select>
               </div>
               <div className="form-group">
-                  <button className="btn btn-primary" type="submit" onClick={(e) => props.handleClientChoose(e)}>
+                  <button className="btn btn-primary" disabled={!props.selectedClient} type="submit" onClick={(e) => props.handleClientChoose(e)}>
                     ASSOCIAR A ESTE
                   </button>
               </div>

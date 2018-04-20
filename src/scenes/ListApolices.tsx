@@ -76,7 +76,7 @@ class ListApolices extends React.Component<any, any>{
                           this.props.getListSuccess.rows.map( (apolice, index) => {
                             return(
                                 <tr key={index} > 
-                                    <td className="badge badge-primary" > <Link to={`/apolice/${apolice.cod_apolice}`} style={{ border: '0px' }} > { apolice.cod_apolice } </Link> </td>
+                                    <td className="badge badge-light" > <Link to={`/corretor/apolice/${apolice.cod_apolice}`} style={{ border: '0px' }} > { apolice.cod_apolice } </Link> </td>
                                     <td> {apolice.dt_emissao} </td>
                                     <td> { apolice.dt_vigencia } </td>
                                     <td> { apolice.seguradora } </td>

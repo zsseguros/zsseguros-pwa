@@ -1,10 +1,10 @@
 import * as React from "react";
-import Login from "./scenes/LoginScene";
-import Corretor from "./scenes/CorretorScene";
-import { saveUser } from "./actions/loginActions";
-import SignUpScene from "./scenes/SignUpScene";
-import SignUp from "./scenes/SignUpScene";
-import NavBar from './components/NavBar';
+import Login from "appSrc/scenes/LoginScene";
+import Corretor from "appSrc/scenes/CorretorScene";
+import { saveUser } from "appSrc/actions/loginActions";
+import SignUpScene from "appSrc/scenes/SignUpScene";
+import SignUp from "appSrc/scenes/SignUpScene";
+import NavBar from 'appSrc/components/NavBar';
 import swal from 'sweetalert2';
 import { connect } from "react-redux";
 import { Switch, Route, Link, withRouter } from "react-router-dom";

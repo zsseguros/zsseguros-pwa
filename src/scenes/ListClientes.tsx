@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { getListClientsRequest } from '../actions/clientsActions';
+import { getListClientsRequest, selectClient } from '../actions/clientsActions';
 import swal from 'sweetalert2';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
@@ -74,28 +74,29 @@ class ListCliente extends React.Component<any, any>{
                           this.props.getListSuccess.rows.map( (client, index) => {
                             return(
                               <tr key={index} > 
-                                <td className="badge badge-light" > <Link to={`/corretor/cliente/${client.cod_cliente}`} style={{ border: '0px' }} > { client.cod_cliente } </Link> </td>
+                                <td className="badge badge-light" onClick={(e: any) => this.props.selectClient(client) } > <Link to={`/corretor/cliente/${client.cod_cliente}`} style={{ border: '0px' }} > { client.cod_cliente } </Link> </td>
                                 <td> {client.nome+" "+client.sobrenome} </td>
                                 <td> { client.cpf } </td>
                                 <td> { client.rg } </td>
                                 <td> { client.dt_nascimento } </td>
                                 <td> { client.ativo === "1" ? "SIM" : "NÃO" } </td>
+                                <td> <Link to={`/corretor/incluirApolice?cod_cliente=${client.cod_cliente}`} > Vincular Apólice </Link> </td>
                                 <td> <button className="btn btn-danger" onClick={(e: any) => {
-                                  swal({
-                                    type: 'info',
-                                    title: 'ATENÇÃO!',
-                                    text: 'Tem certeza de que quer deletar este usuário?',
-                                    showConfirmButton: true,
-                                    confirmButtonText: 'Sim, deletar!',
-                                    showCancelButton: true,
-                                    cancelButtonText: 'Não, não estou seguro...'
-                                  }).then( (confirm) => {
-                                      if ( confirm.value ) {
-                                        alert('Deletado!');
-                                      }
-                                  });
-                                }} >DELETAR</button> </td>
-                                <td> <Link to={`/corretor/incluirApolice?cod_cliente${client.cod_cliente}`} > Adicionar Apólice </Link> </td>
+                                    swal({
+                                      type: 'info',
+                                      title: 'ATENÇÃO!',
+                                      text: 'Tem certeza de que quer deletar este usuário?',
+                                      showConfirmButton: true,
+                                      confirmButtonText: 'Sim, deletar!',
+                                      showCancelButton: true,
+                                      cancelButtonText: 'Não, não estou seguro...'
+                                    }).then( (confirm) => {
+                                        if ( confirm.value ) {
+                                          alert('Deletado!');
+                                        }
+                                    });
+                                  }} >DELETAR</button>
+                                </td>
                               </tr>                      
                             )
                           })
@@ -122,4 +123,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { getListClientsRequest })(ListCliente);
+export default connect(mapStateToProps, { getListClientsRequest, selectClient })(ListCliente);

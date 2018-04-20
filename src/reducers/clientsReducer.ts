@@ -1,9 +1,11 @@
 import types from '../actionTypes';
+import { selectClient } from '../actions/clientsActions';
 
 const CLIENTS_STATE = {
   isGettingList: false,
   getListSuccess: null,
-  getListError: null
+  getListError: null,
+  selectedClient: null
 };
 
 export const client = (state = CLIENTS_STATE, action) => {
@@ -28,6 +30,11 @@ export const client = (state = CLIENTS_STATE, action) => {
         isGettingList: false,
         getListSuccess: null,
         getListError: action.error
+      }
+    case types.SELECT_CLIENT:
+      return {
+        ...state,
+        selectedClient: action.selectedClient
       }
     default:
       return {

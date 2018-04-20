@@ -39,3 +39,10 @@ export const getListClientsRequest = () => {
     });
   }
 }
+
+export const selectClient = (selectedClient: any) => {
+  return {
+    type: types.SELECT_CLIENT,
+    selectedClient
+  }
+}
