@@ -40,3 +40,10 @@ export const getApolicesListRequest = () => {
         });
     }
 }
+
+export const selectApolice = (apolice: any) => {
+    return {
+        type: types.SELECT_APOLICE,
+        apolice
+    }
+}

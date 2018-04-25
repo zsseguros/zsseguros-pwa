@@ -21,15 +21,19 @@ const CorretorOptions = (props: any) => {
               <p className="card-text">
                 Gerencie seus clientes
               </p>
-              <button className="btn btn-primary m-1">
-                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/listarClientes">Listar clientes</Link>
-              </button>
-              <button className="btn btn-primary m-1">
-                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/incluirCliente">Adicionar cliente</Link>
-              </button>
-              <button className="btn btn-primary m-1">
+              <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/listarClientes">
+                <button className="btn btn-primary m-1">
+                  Listar clientes
+                </button>
+              </Link>
+              <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/incluirCliente">
+                <button className="btn btn-primary m-1">
+                  Adicionar cliente
+                </button>
+              </Link>
+              {/* <button className="btn btn-primary m-1">
                 <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/incluirCliente">Atualizar cliente</Link>
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -42,14 +46,18 @@ const CorretorOptions = (props: any) => {
               <p className="card-text">
                 Gerencie suas apólices
               </p>
+              <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/listarApolices">
+                <button className="btn btn-primary m-1">
+                Listar apólices
+                </button>
+              </Link>
+              <Link style={{ color: '#ffffff', margin: '0px' }} to={`/corretor/incluirApolice?cod_cliente=${null}`}>
+                <button className="btn btn-primary m-1">
+                  Adicionar apólice
+                </button>
+              </Link>
               <button className="btn btn-primary m-1">
-                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/listarApolices">Listar apólices</Link>
-              </button>
-              <button className="btn btn-primary m-1">
-                <Link style={{ color: '#ffffff', margin: '0px' }} to={`/corretor/incluirApolice?cod_cliente=${null}`}>Adicionar apólice</Link>
-              </button>
-              <button className="btn btn-primary m-1">
-                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/atualizarApolice">Atualizar apólice</Link>
+                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/tarefas/adicionar">Atualizar apólice</Link>
               </button>
             </div>
           </div>

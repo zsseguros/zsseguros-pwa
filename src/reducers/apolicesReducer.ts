@@ -3,7 +3,8 @@ import types from '../actionTypes';
 const APOLICES_STATE = {
     isGettingList: false,
     getListSuccess: null,
-    getListError: null
+    getListError: null,
+    selectedApolice: null
 }
 
 export const apolices = (state = APOLICES_STATE, action: any) => {
@@ -28,6 +29,11 @@ export const apolices = (state = APOLICES_STATE, action: any) => {
                 isGettingList: false,
                 getListSuccess: null,
                 getListError: action.error
+            }
+        case types.SELECT_APOLICE:
+            return {
+                ...state,
+                selectedApolice: action.apolice
             }
         default:
             return {

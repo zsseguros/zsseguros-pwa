@@ -4,6 +4,7 @@ import { getListClientsRequest, selectClient } from '../actions/clientsActions';
 import swal from 'sweetalert2';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import * as moment from 'moment';
 
 class ListCliente extends React.Component<any, any>{
   constructor(props: any){
@@ -78,7 +79,7 @@ class ListCliente extends React.Component<any, any>{
                                 <td> {client.nome+" "+client.sobrenome} </td>
                                 <td> { client.cpf } </td>
                                 <td> { client.rg } </td>
-                                <td> { client.dt_nascimento } </td>
+                                <td> { moment(client.dt_nascimento).format('DD-MM-YYYY') } </td>
                                 <td> { client.ativo === "1" ? "SIM" : "NÃO" } </td>
                                 <td> <Link to={`/corretor/incluirApolice?cod_cliente=${client.cod_cliente}`} > Vincular Apólice </Link> </td>
                                 <td> <button className="btn btn-danger" onClick={(e: any) => {
