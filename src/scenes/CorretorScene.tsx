@@ -11,6 +11,7 @@ import ApoliceDetails from 'appSrc/scenes/ApoliceDetails';
 import TasksScene from 'appSrc/scenes/TasksScenes';
 import UpdateApolice from 'appSrc/scenes/UpdateApoliceScene';
 import UpdateApoliceScene from 'appSrc/scenes/UpdateApoliceScene';
+import UpdateClient from 'appSrc/scenes/UpdateClientScene';
 
 class Corretor extends React.Component<any, any>{
   render(){
@@ -21,6 +22,7 @@ class Corretor extends React.Component<any, any>{
           <Route exact path="/corretor/incluirCliente" component={InsertCliente} />
           <Route exact path="/corretor/listarClientes" component={ListClientes} />
           <Route exact path="/corretor/cliente/:clientId" component={ClienteDetails} />
+          <Route exact path="/corretor/cliente/alterar/:clientId" component={UpdateClient} />
           <Route exact path="/corretor/incluirApolice" component={InsertApolice} />
           <Route exact path="/corretor/listarApolices" component={ListApolices} />
           <Route exact path="/corretor/apolice/:apoliceId" component={ApoliceDetails} />
