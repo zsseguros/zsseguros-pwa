@@ -47,7 +47,7 @@ class ListApolices extends React.Component<any, any>{
 
   render(){
       return(
-        <div className="col-10 h-100 d-flex flex-column justify-content-center">
+        <div className="col-11 h-100 d-flex flex-column justify-content-center">
           <div className="row">
             <div className="card ">
 
@@ -66,7 +66,9 @@ class ListApolices extends React.Component<any, any>{
                         <th>Valor Franquia (R$)</th>
                         <th>Valor Franquia Vidros (R$)</th>
                         <th>Valor Prêmio (R$)</th>
+                        <th>Classe Bônus</th>
                         <th>Ativa</th>
+                        <th>#</th>
                         <th>#</th>
                       </tr>
                     </thead>
@@ -83,6 +85,7 @@ class ListApolices extends React.Component<any, any>{
                                     <td> { apolice.vl_franquia } </td>
                                     <td> { apolice.vl_franquia_vidros } </td>
                                     <td> { apolice.vl_premio_total } </td>
+                                    <td> { apolice.classe_bonus } </td>
                                     <td> { apolice.ativa ? "SIM" : "NÃO" } </td>
                                     <td> <button className="btn btn-danger" onClick={(e: any) => {
                                     swal({
@@ -99,6 +102,11 @@ class ListApolices extends React.Component<any, any>{
                                         }
                                     });
                                     }} >DELETAR</button> </td>
+                                    <td>
+                                      <Link to={`/corretor/apolice/alterar/${apolice.cod_apolice}`} >
+                                        <button onClick={(e: any) => this.props.selectApolice(apolice)} className="btn btn-info">Alterar</button>
+                                      </Link>
+                                    </td>
                                 </tr>                   
                             )
                           })

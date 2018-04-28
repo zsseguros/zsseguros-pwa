@@ -75,7 +75,7 @@ class ListCliente extends React.Component<any, any>{
                           this.props.getListSuccess.rows.map( (client, index) => {
                             return(
                               <tr key={index} > 
-                                <td className="badge badge-light" onClick={(e: any) => this.props.selectClient(client) } > <Link to={`/corretor/cliente/${client.cod_cliente}`} style={{ border: '0px' }} > { client.cod_cliente } </Link> </td>
+                                <td className="" onClick={(e: any) => this.props.selectClient(client) } > <Link to={`/corretor/cliente/${client.cod_cliente}`} style={{ border: '0px' }} > { client.cod_cliente } </Link> </td>
                                 <td> {client.nome+" "+client.sobrenome} </td>
                                 <td> { client.cpf } </td>
                                 <td> { client.rg } </td>

@@ -2,7 +2,7 @@ import * as React from "react";
 import {Link} from 'react-router-dom';
 
 export const ClientInserForm = (props: any) => {
-  console.log(props.formData)
+
   return (
     <div
       className="col-xs-10 col-xs-push-2 col-md-6 col-md-push-4 card rounded"
@@ -158,6 +158,28 @@ export const ClientInserForm = (props: any) => {
                 display: "flex",
                 justifyContent: "flex-start"
               }}
+              htmlFor="txtCnh"
+            >
+              CNH
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="txtCnh"
+              name="cnh"
+              placeholder="0000000000"
+              maxLength={11}
+              onChange={(e: any) => props.handleChange(e)}
+              value={props.formData.cnh}
+            />
+          </div>
+          <div className="form-group">
+            <label
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "flex-start"
+              }}
               htmlFor="txtAddress"
             >
               Logradouro
@@ -168,7 +190,7 @@ export const ClientInserForm = (props: any) => {
               required
               id="txtAddress"
               name="logradouro"
-              maxLength={20}
+              maxLength={35}
               placeholder="Rua Conego Araújo Marcondes"
               onChange={(e: any) => props.handleChange(e)}
               value={props.formData.logradouro}
@@ -235,7 +257,7 @@ export const ClientInserForm = (props: any) => {
               className="form-control"
               id="txtExtra"
               name="complemento_endereco"
-              placeholder="apto 01"
+              placeholder="51 B"
               maxLength={6}
               onChange={(e: any) => props.handleChange(e)}
               value={props.formData.complemento_endereco}
@@ -314,28 +336,6 @@ export const ClientInserForm = (props: any) => {
                 );
               })}
             </select>
-          </div>
-          <div className="form-group">
-            <label
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "flex-start"
-              }}
-              htmlFor="txtApolice"
-            >
-              Número da Apólice<br/>
-            </label>
-            <small style={{ textAlign: 'left', width: '100%', fontSize: '9px' }} >Opcional</small>
-            <input
-              type="text"
-              className="form-control"
-              id="txtApolice"
-              name="cod_apolice"
-              placeholder="0092019039103"
-              onChange={(e: any) => props.handleChange(e)}
-              value={props.formData.cod_apolice}
-            />
           </div>
           <button
             type="submit"

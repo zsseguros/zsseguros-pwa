@@ -56,9 +56,6 @@ const CorretorOptions = (props: any) => {
                   Adicionar apólice
                 </button>
               </Link>
-              <button className="btn btn-primary m-1">
-                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/tarefas/adicionar">Atualizar apólice</Link>
-              </button>
             </div>
           </div>
         </div>

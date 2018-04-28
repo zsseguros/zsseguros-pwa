@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { ClientInserForm, ContactInsertForm } from '../components/InsertForms';
+import { ClientInserForm, ContactInsertForm } from 'appSrc/components/InsertForms';
 import swal from 'sweetalert2';
 
 interface InsertClienteState {
@@ -14,13 +14,13 @@ interface InsertClienteState {
     genero: string,
     cpf: string,
     rg: string,
+    cnh: string,
     logradouro: string,
     numero: string,
     bairro: string,
     cep: string,
     cidade: string,
     uf: string,
-    cod_apolice?: string
     uf_list: Array<string>,
     complemento_endereco: string
   },
@@ -43,13 +43,13 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
         genero: '',
         cpf: '',
         rg: '',
+        cnh: '',
         logradouro: '',
         numero: '',
         bairro: '',
         cep: '',
         cidade: '',
         uf: 'SP',
-        cod_apolice: '',
         uf_list: ['SP', 'RJ', 'PR', 'MG', 'MS', 'MT', 'BA'],
         complemento_endereco: ''    
       },
@@ -72,21 +72,24 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
   }
 
   buildPayload(){
+    let newId = this.state.formData.cpf.replace(/\./g, '');
+    newId = newId.replace(/-/g, '');
+
     return {
-      cod_cliente: this.state.formData.cpf.replace('.', '').replace('-', ''),
+      cod_cliente: newId,
       cod_corretor: 'A5269J',
       nome: this.state.formData.nome,
       sobrenome: this.state.formData.sobrenome,
       dt_nascimento: this.state.formData.dt_nascimento,
       cpf: this.state.formData.cpf,
       rg: this.state.formData.rg,
+      cnh: this.state.formData.cnh.length > 0 ? this.state.formData.cnh : 'NA',
       logradouro: this.state.formData.logradouro,
       numero: this.state.formData.numero,
       bairro: this.state.formData.bairro,
       cep: this.state.formData.cep,
       cidade: this.state.formData.cidade,
       uf: this.state.formData.uf,
-      cod_apolice: this.state.formData.cod_apolice,
       complemento_endereco: this.state.formData.complemento_endereco,
       genero: this.state.formData.genero,
     }
@@ -132,7 +135,7 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
           this.setState({
             isPosting: false,
             postSuccess: response,
-            postError: null            
+            postError: null   
           });
         }
       });
@@ -150,8 +153,15 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
   handleSubmit(e: any){
     e.preventDefault();
 
-    this.postCliente(this.buildPayload());
-    // console.log(this.buildPayload());
+    let auxPayload = this.buildPayload()
+    let auxArray = Object.keys(auxPayload).map( (key, index) => auxPayload[key] !== '' );
+    
+    if ( auxArray.indexOf(false) > -1 ) {
+      return;
+    } else {
+      this.postCliente(this.buildPayload());
+    }
+
   }
 
   showForms(state: InsertClienteState){

@@ -41,7 +41,7 @@ class ClienteDetails extends React.Component<any, any>{
     }).then( (response: any) => {
       this.setState({
         clientDetails: response.data,
-        selectedApolice: response.data.apolices[0].cod_apolice
+        selectedApolice: response.data.apolices.length > 0 ? response.data.apolices[0].cod_apolice : null
       });
 
       swal.close();
@@ -108,31 +108,37 @@ class ClienteDetails extends React.Component<any, any>{
   }
 
   showSelectedApolice(apolice: number){
-    let apoliceObj = this.state.clientDetails.apolices.find( (apol) => apol.cod_apolice === apolice );
+    if ( apolice !== null ) {
 
-    return(
-      <div className="card text-white bg-secondary  w-100"  style={{ minHeight: '200px' }}>
-        <div className="card-body">
-          <b> Número: { apoliceObj.cod_apolice } </b>
-          <div className="row">
-            <div className="col-6">
-              <b>De { moment(apoliceObj.dt_emissao).format('DD-MM-YYYY') }</b>
+      let apoliceObj = this.state.clientDetails.apolices.find( (apol) => apol.cod_apolice === apolice );
+  
+      return(
+        <div className="card text-white bg-secondary  w-100"  style={{ minHeight: '200px' }}>
+          <div className="card-body">
+            <b> Número: { apoliceObj.cod_apolice } </b>
+            <div className="row">
+              <div className="col-6">
+                <b>De { moment(apoliceObj.dt_emissao).format('DD-MM-YYYY') }</b>
+              </div>
+              <div className="col-6">
+                <b>Até: { moment(apoliceObj.dt_vigencia).format('DD-MM-YYYY') }</b>
+              </div>
             </div>
-            <div className="col-6">
-              <b>Até: { moment(apoliceObj.dt_vigencia).format('DD-MM-YYYY') }</b>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-6">
-              <b>Franquia: R$ { apoliceObj.vl_franquia }</b>
-            </div>
-            <div className="col-6">
-              <b>Prêmio: R$ { apoliceObj.vl_premio_total }</b>
+            <div className="row">
+              <div className="col-6">
+                <b>Franquia: R$ { apoliceObj.vl_franquia }</b>
+              </div>
+              <div className="col-6">
+                <b>Prêmio: R$ { apoliceObj.vl_premio_total }</b>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+
+    } else {
+      return null;
+    }
   }
 
   render(){
@@ -146,7 +152,7 @@ class ClienteDetails extends React.Component<any, any>{
           </div>
           <div className="col-6 my-1">
             <div className="d-flex flex-direction-row justify-content-center">
-              { this.state.clientDetails ? this.showApolicesInfos(this.state.clientDetails.apolices) : 'N/a' }
+              { this.state.clientDetails ? this.showApolicesInfos(this.state.clientDetails.apolices || []) : 'N/a' }
             </div>
           </div>
 
