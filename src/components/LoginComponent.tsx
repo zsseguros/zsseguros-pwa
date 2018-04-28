@@ -45,7 +45,6 @@ class Login extends React.Component<any, LoginState>{
   componentWillReceiveProps(nextProps){
     if ( nextProps.userInfo !== null ) {
       
-      
     }
 
     if ( this.props.userInfo === null && nextProps.userInfo === null ) {
@@ -75,12 +74,17 @@ class Login extends React.Component<any, LoginState>{
       isLogingIn: !this.state.isLogingIn
     }, () => {
       fbLogin(this.state.payload.login, this.state.payload.password, (userInfo) => {
-  
+        // Firebase login callback
         if ( userInfo.email ) {
           
           this.props.saveUser(userInfo);
-  
-          localStorage.setItem("idToken", userInfo.getIdToken(false));
+          
+          userInfo.getIdToken(false).then( (token) => {
+
+            localStorage.setItem("token", JSON.stringify(token));
+
+          }).catch( (error) => '')
+          localStorage.setItem("loggedIn", 'true' );
 
           swal({
             type: 'success',
@@ -193,8 +197,8 @@ class Login extends React.Component<any, LoginState>{
       );
     } else if ( this.props.location.pathname.indexOf("/login/corretor") > -1 ) {
       return(
-        <div className="row d-flex justify-content-center">
-          <div className="col-md-6 col-md-push-3">
+        <div className="row justify-content-center">
+          <div className=" col-sm-12 col-md-6">
             <form onSubmit={(e: any)=>this.handleSubmit(e)}>
               <div className="form-group">
                 <label htmlFor="exampleInputEmail1">Email</label>
@@ -205,7 +209,6 @@ class Login extends React.Component<any, LoginState>{
                 <input type="password" className="form-control" id="exampleInputPassword1" name="password" placeholder="Password" onChange={(e: any) => this.handleChange(e)} />
               </div>
               <button type="submit" className="btn btn-primary" disabled={this.state.isLogingIn}>{this.state.isLogingIn ? 'AGUARDE...' : 'ENTRAR'}</button><br />
-              <b> <Link to="/" >Voltar</Link> </b>
             </form>
           </div>
         </div>

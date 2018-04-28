@@ -1,54 +1,74 @@
 import * as React from "react";
-import "./css/App.css";
-import { Switch, Route } from "react-router-dom";
-import Login from './scenes/LoginScene';
-import {Link} from 'react-router-dom';
-import Corretor from './scenes/CorretorScene';
-import {connect} from 'react-redux';
-import { saveUser } from './actions/loginActions';
-import SignUpScene from './scenes/SignUpScene';
-import SignUp from './scenes/SignUpScene';
-import {withRouter} from 'react-router-dom';
+import Login from "appSrc/scenes/LoginScene";
+import Corretor from "appSrc/scenes/CorretorScene";
+import { saveUser } from "appSrc/actions/loginActions";
+import SignUpScene from "appSrc/scenes/SignUpScene";
+import SignUp from "appSrc/scenes/SignUpScene";
+import NavBar from 'appSrc/components/NavBar';
+import swal from 'sweetalert2';
+import { connect } from "react-redux";
+import { Switch, Route, Link, withRouter } from "react-router-dom";
 
-const logo = require("./css/logo.svg");
+class App extends React.Component<any, any> {
+  componentDidMount() {
+    if ( !localStorage.getItem('token') ) {
+      this.props.history.push('/login/corretor');
+    } else {
+      this.props.saveUser( localStorage.getItem('token') );
+      this.props.history.push('/corretor');
+    }
+  }
 
-class App extends React.Component {
-
-  componentDidMount(){
-    
+  toggleNavBar(){
+    if ( $('body').hasClass('sidenav-toggled') ) {
+      $('body').removeClass('sidenav-toggled');
+    } else {
+      $('body').addClass('sidenav-toggled');
+    }
   }
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <div className="container-fluid">
-        
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() => {
-                return(
-                  <p className="App-intro">
-                    Eu sou: 
-                    <Link className="link" to="/login/cliente"  ><button className="btn btn-info" >SEGURADO</button></Link>
-                    <Link className="link" to="/login/corretor" ><button className="btn btn-info" >CORRETOR</button></Link>
-                  </p>            
-                );
-              }}
-            />
-            <Route path="/login" component={Login} />
-            <Route path="/corretor" component={Corretor} />
-            <Route path="/signup" component={SignUp} />
-          </Switch>
+      <div className="container-fluid">
+        {
+          this.props.location.pathname === '/login/corretor' ?
+          <div className="col-4">
+          &nbsp;
+          </div>
+          :
+            <div className="col-4">
+              <NavBar toggleNavBar={(e: any) => this.toggleNavBar()} />
+            </div>
+        }
+        <div className="content-wrapper">
+            <div className="col-12 h-100" style={{ marginTop: '100px' }} >
+              <div className="row h-100 d-flex justify-content-end">
+                <Switch>
+                  <Route
+                    exact
+                    path="/"
+                    render={() => {
+                      return (
+                        <p className="App-intro">
+                          Eu sou:
+                          {/* <Link className="link" to="/login/cliente"  ><button className="btn btn-info" >SEGURADO</button></Link> */}
+                          <Link className="link" to="/login/corretor">
+                            <button className="btn btn-info">CORRETOR</button>
+                          </Link>
+                        </p>
+                      );
+                    }}
+                  />
+                  <Route path="/login" component={Login} />
+                  <Route path="/corretor" component={Corretor} />
+                  <Route path="/signup" component={SignUp} />
+                </Switch>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
     );
   }
 }
 
-export default withRouter(connect(null, {saveUser})(App));
+export default withRouter(connect(null, { saveUser })(App));

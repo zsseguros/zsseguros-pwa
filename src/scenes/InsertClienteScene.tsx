@@ -1,27 +1,33 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { ClientInserForm, ContactInsertForm } from 'appSrc/components/InsertForms';
+import swal from 'sweetalert2';
 
 interface InsertClienteState {
-  cod_cliente: string,
-  cod_corretor: string,
-  nome: string,
-  sobrenome: string,
-  dt_nascimento: string,
-  genero: string,
-  cpf: string,
-  rg: string,
-  logradouro: string,
-  nrEndereco: string,
-  bairro: string,
-  cidade: string,
-  uf: string,
-  cod_apolice?: string
+  formData: {
+    cod_corretor: string,
+    nome: string,
+    sobrenome: string,
+    dt_nascimento: string,
+    genero: string,
+    cpf: string,
+    rg: string,
+    cnh: string,
+    logradouro: string,
+    numero: string,
+    bairro: string,
+    cep: string,
+    cidade: string,
+    uf: string,
+    uf_list: Array<string>,
+    complemento_endereco: string
+  },
+  step: number,
   isPosting: boolean,
   postSuccess: any,
   postError: any,
-  uf_list: Array<string>
 }
 
 class InsertCliente extends React.Component<any, InsertClienteState>{
@@ -29,43 +35,63 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
     super(props);
 
     this.state = {
-      cod_cliente: '',
-      cod_corretor: 'A5269J',
-      nome: '',
-      sobrenome: '',
-      dt_nascimento: '',
-      genero: '',
-      cpf: '',
-      rg: '',
-      logradouro: '',
-      nrEndereco: '',
-      bairro: '',
-      cidade: '',
-      uf: '',
-      cod_apolice: '',
+      formData: {
+        cod_corretor: 'A5269J',
+        nome: '',
+        sobrenome: '',
+        dt_nascimento: '',
+        genero: '',
+        cpf: '',
+        rg: '',
+        cnh: '',
+        logradouro: '',
+        numero: '',
+        bairro: '',
+        cep: '',
+        cidade: '',
+        uf: 'SP',
+        uf_list: ['SP', 'RJ', 'PR', 'MG', 'MS', 'MT', 'BA'],
+        complemento_endereco: ''    
+      },
+      step: 0,
       isPosting: false,
       postSuccess: null,
       postError: null,
-      uf_list: ['SP', 'RJ', 'PR', 'MG', 'MS', 'MT', 'BA'],
     }
   }
 
+  componentDidUpdate(pevProps, prevState){
+
+    if ( prevState.isPosting && !this.state.isPosting && this.state.postSuccess ) {
+      // this.setState({
+      //   step: 1
+      // });
+      this.props.history.push('/corretor');
+    }
+    
+  }
+
   buildPayload(){
+    let newId = this.state.formData.cpf.replace(/\./g, '');
+    newId = newId.replace(/-/g, '');
+
     return {
-      cod_cliente: this.state.cod_cliente,
+      cod_cliente: newId,
       cod_corretor: 'A5269J',
-      nome: this.state.nome,
-      sobrenome: this.state.sobrenome,
-      dt_nascimento: this.state.dt_nascimento,
-      genero: this.state.genero,
-      cpf: this.state.cpf,
-      rg: this.state.rg,
-      logradouro: this.state.logradouro,
-      nrEndereco: this.state.nrEndereco,
-      bairro: this.state.bairro,
-      cidade: this.state.cidade,
-      uf: this.state.uf,
-      cod_apolice: this.state.cod_apolice,      
+      nome: this.state.formData.nome,
+      sobrenome: this.state.formData.sobrenome,
+      dt_nascimento: this.state.formData.dt_nascimento,
+      cpf: this.state.formData.cpf,
+      rg: this.state.formData.rg,
+      cnh: this.state.formData.cnh.length > 0 ? this.state.formData.cnh : 'NA',
+      logradouro: this.state.formData.logradouro,
+      numero: this.state.formData.numero,
+      bairro: this.state.formData.bairro,
+      cep: this.state.formData.cep,
+      cidade: this.state.formData.cidade,
+      uf: this.state.formData.uf,
+      complemento_endereco: this.state.formData.complemento_endereco,
+      genero: this.state.formData.genero,
     }
   }
 
@@ -74,7 +100,10 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
     let value = e.target.value;
 
     this.setState({
-      [name]: value
+      formData: {
+        ...this.state.formData,
+        [name]: value
+      }
     });
 
   }
@@ -89,115 +118,77 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
 
     const instance = axios.create({
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       }
     });
 
-    const request = instance.post(`http://localhost:8581/api/clientes/insere`, payload);
+    const request = instance.post(`http://localhost:8383/clientes/insere`, payload);
 
     request.then( (response: any) => {
-      this.setState({
-        isPosting: false,
-        postSuccess: response,
-        postError: null
+
+      swal({
+        type: 'success',
+        title: 'Sucesso!',
+        text: 'Cliente adicionado com sucesso, retorne para o painel principal.',
+      }).then( (confirm) => {
+        if ( confirm ) {
+          this.setState({
+            isPosting: false,
+            postSuccess: response,
+            postError: null   
+          });
+        }
       });
+
     })
     .catch( (error: any) => {
       this.setState({
         isPosting: false,
         postError: error,
         postSuccess: null
-      })
+      });
     });
   }
 
   handleSubmit(e: any){
     e.preventDefault();
 
-    this.postCliente(this.buildPayload());
+    let auxPayload = this.buildPayload()
+    let auxArray = Object.keys(auxPayload).map( (key, index) => auxPayload[key] !== '' );
+    
+    if ( auxArray.indexOf(false) > -1 ) {
+      return;
+    } else {
+      this.postCliente(this.buildPayload());
+    }
+
+  }
+
+  showForms(state: InsertClienteState){
+    switch (state.step) {
+      case 0:
+        return <ClientInserForm uf_list={this.state.formData.uf_list || []} formData={state.formData} handleChange={(e) => this.handleChange(e)} handleSubmit={(e) => this.handleSubmit(e)} isPosting={this.state.isPosting} />
+      case 1:
+        // return <ContactInsertForm handleChange={(e) => this.handleChange(e)} handleSubmit={(e) => this.handleSubmit(e)} isPosting={this.state.isPosting} />
+      default:
+        return null
+    }
   }
 
   render(){
     return(
-      <div className="row">
-      <div className="col-md-5 col-md-push-4" style={{ padding: '10px', backgroundColor: 'rgba(100, 100, 100, 0.1)' }} >
-        <form onSubmit={(e: any)=> this.handleSubmit(e)}>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="txtName">Nome</label>
-            <input type="text" className="form-control" id="txtName" name="nome" required placeholder="Nome" onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="txtLastName">Sobrenome</label>
-            <input type="text" className="form-control" id="txtLastName" name="sobrenome" placeholder="Sobrenome" required onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="dtBirth">Data Nascimento</label>
-            <input type="text" className="form-control" id="dtBirth" name="dt_nascimento" required onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="txtGender">Genero</label>
-            <input type="text" className="form-control" id="txtGender" name="genero" placeholder="Sobrenome" required onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="txtCpf">CPF</label>
-            <input type="text" className="form-control" id="txtCpf" name="cpf" placeholder="Sobrenome" required onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="txtRg">RG</label>
-            <input type="text" className="form-control" id="txtRg" name="rg" placeholder="Sobrenome" required onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="txtAddress">Logradouro</label>
-            <input type="text" className="form-control" id="txtAddress" name="logradouro" placeholder="Rua Conego Araújo Marcondes" onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="nrAddress">Número do imóvel</label>
-            <input type="text" className="form-control" id="nrAddress" name="nrEndereco" onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="txtAddress">Bairro</label>
-            <input type="text" className="form-control" id="txtNeiborhood" name="bairro" placeholder="Bairro do Limão" onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="txtExtra">Complemento</label>
-            <input type="text" className="form-control" id="txtExtra" name="complemento" placeholder="apto 01" onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="txtCep">CEP</label>
-            <input type="text" className="form-control" id="txtCep" name="cep" placeholder="00000-000" onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="txtCity">Cidade</label>
-            <input type="text" className="form-control" id="txtCity" name="cidade" placeholder="São Paulo" onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="selectUf">ESTADO</label>
-            <select className="form-control" id="selectUf" defaultValue="SP" name="uf" onChange={(e: any) => this.handleChange(e)} >
-              {
-                this.state.uf_list.map( (uf, index) => {
-                  return(
-                    <option key={index} value={uf}>{uf}</option> 
-                  );
-                })
-              }
-            </select>
-          </div>
-          <div className="form-group">
-            <label style={{ width: '100%', display: 'flex', justifyContent: 'flex-start'}} htmlFor="txtApolice">Número da Apólice</label>
-            <input type="text" className="form-control" id="txtApolice" name="cod_apolice" placeholder="0092019039103" onChange={(e: any) => this.handleChange(e)} />
-          </div>
-          <button type="submit" className="btn btn-primary" disabled={this.state.isPosting} >{this.state.isPosting ? "AGUARDE..." : "CADASTRAR"}</button><br />
-          <b> <Link to="/corretor" >Voltar</Link> </b>
-        </form>
+      <div className="container d-flex justify-content-center">
+          {
+            this.showForms(this.state)
+          }
       </div>
-    </div>
     );
   }
 }
 
 const mapStateToProps = (state: any) => {
   return {
-
+    
   }
 }
 

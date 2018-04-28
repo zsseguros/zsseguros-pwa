@@ -5,27 +5,94 @@ const CorretorOptions = (props: any) => {
   return (
     <div className="col-md-12">
       <div className="row">
-        <div className="col-md-4 col-md-push-4">
+        <div className="col-12 my-5">
           <h2>
-            Olá {props.userInfo ? props.userInfo.displayName : "---"}
+            Olá {props.userInfo ? props.userInfo.displayName : "ZSSEGUROS"}
           </h2>
         </div>
       </div>
       <div className="row">
         <div className="col-md-4">
-          <div className="well well-info">
-            <Link to="/corretor/incluirCliente">Listar clientes</Link>
+          <div className="card">
+            <div className="card-body">
+              <h2 className="card-header">
+                Clientes
+              </h2>
+              <p className="card-text">
+                Gerencie seus clientes
+              </p>
+              <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/listarClientes">
+                <button className="btn btn-primary m-1">
+                  Listar clientes
+                </button>
+              </Link>
+              <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/incluirCliente">
+                <button className="btn btn-primary m-1">
+                  Adicionar cliente
+                </button>
+              </Link>
+              {/* <button className="btn btn-primary m-1">
+                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/incluirCliente">Atualizar cliente</Link>
+              </button> */}
+            </div>
           </div>
         </div>
         <div className="col-md-4">
-          <div className="well well-info">
-            <Link to="/corretor/incluirCliente">Adicionar clientes</Link>
+          <div className="card">
+            <div className="card-body">
+              <h2 className="card-header">
+                Apolices
+              </h2>
+              <p className="card-text">
+                Gerencie suas apólices
+              </p>
+              <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/listarApolices">
+                <button className="btn btn-primary m-1">
+                Listar apólices
+                </button>
+              </Link>
+              <Link style={{ color: '#ffffff', margin: '0px' }} to={`/corretor/incluirApolice?cod_cliente=${null}`}>
+                <button className="btn btn-primary m-1">
+                  Adicionar apólice
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
         <div className="col-md-4">
-          <div className="well well-info">
-            <Link to="/corretor/incluirCliente">Atualizar clientes</Link>
+        <div className="card text-white bg-primary o-hidden h-100">
+            <div className="card-body">
+              <div className="card-body-icon">
+                <i className="fa fa-fw fa-comments"></i>
+              </div>
+              <div className="mr-5">26 New Messages!</div>
+            </div>
+            <a className="card-footer text-white clearfix small" href="#">
+              <span className="">View Details</span>
+              <span className="">
+                <i className="fa fa-angle-right"></i>
+              </span>
+            </a>
           </div>
+          {/* <div className="card">
+            <div className="card-body">
+              <h2 className="card-header">
+                Clientes
+              </h2>
+              <p className="card-text">
+                Gerencie seus clientes
+              </p>
+              <button className="btn btn-primary m-1">
+                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/listarClientes">Listar clientes</Link>
+              </button>
+              <button className="btn btn-primary m-1">
+                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/incluirCliente">Adicionar cliente</Link>
+              </button>
+              <button className="btn btn-primary m-1">
+                <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/incluirCliente">Atualizar cliente</Link>
+              </button>
+            </div>
+          </div> */}
         </div>
       </div>
     </div>

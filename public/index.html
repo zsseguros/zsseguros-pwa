@@ -11,10 +11,8 @@
     -->
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-  <link rel="stylesheet" href="/bootstrap.min.css">
-  <link rel="stylesheet" href="/bootstrap-grid.min.css">
-  <link rel="stylesheet" href="/bootstrap-reboot.min.css">
-
+  <script src="./fontawesome-all.js" >
+  </script>
   <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -25,6 +23,9 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <style>
+    #root{
+      padding: 5px;
+    }
     #zs-description {
       font-size: 11px;
       position: absolute;
@@ -36,15 +37,35 @@
       justify-content: center;
       text-align: center;
     }
+
+    #main-footer{
+      display: flex;
+      position: fixed;
+      bottom: 0px;
+      color: white;
+      height: 100px;
+      width: 100vw;
+      background-color: black;
+    }
+    
+    #main-footer p {
+      width: 100vw;
+      text-align: center;
+    }
   </style>
   <title>React App</title>
 </head>
 
-<body>
+<body >
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
   <div id="root"></div>
+  <!-- <footer id="main-footer" >
+    <p>
+      ZSSEGUROS Ltda.
+    </p>
+  </footer> -->
   <!-- <article id="zs-description">
     <p>
       Bem vindo ao Web App da ZSSEGUROS, aqui você pode consultar
@@ -63,7 +84,13 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script src="./jquery.easing.min.js" ></script>
+    <script src="./jquery.easing.compatibility.js" ></script>
+    <script> src="./sb-admin.min.js" </script>
+    <script> src="./sb-admin-charts.min.js" </script>
+    <script src="./jquery.dataTables.js" ></script>
+    <script src="./dataTables.bootstrap4.js" ></script>
+    <script> src="./sb-admin-datatables.min.js" </script>
+    <script> src="./Chart.min.js" </script>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/bootstrap.min.js" ></script>
 </html>

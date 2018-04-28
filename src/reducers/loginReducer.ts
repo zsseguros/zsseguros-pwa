@@ -9,7 +9,7 @@ export const login = (state = LOGIN_STATE, action) => {
     case types.SAVE_UID:
       return {
         ...state,
-        user: action.uidToken
+        user: action.user
       }
   
     default:

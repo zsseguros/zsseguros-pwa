@@ -1,19 +1,26 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-import './css/index.css';
+// import registerServiceWorker from './registerServiceWorker';
+import './styles/index.css';
 import {BrowserRouter} from 'react-router-dom';
 import {createStore, applyMiddleware, compose} from 'redux';
 import {Provider} from 'react-redux';
 import wholeState from './reducers/index';
 import thunk from 'redux-thunk';
-import 'jquery';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
+import './styles/sb-admin.min.css';
+import './styles/datatables/dataTables.bootstrap4.css';
 
 const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose;
 
 const store = createStore(wholeState, composeEnhancers(applyMiddleware(thunk)));
+
+const subscriber = store.subscribe(() => {
+  let serializedState = JSON.stringify(store.getState());
+  console.log("Serialized", serializedState, store.getState())
+});
 
 ReactDOM.render(
   <Provider store={store}>
@@ -23,4 +30,4 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root') as HTMLElement
 );
-registerServiceWorker();
+// registerServiceWorker();
