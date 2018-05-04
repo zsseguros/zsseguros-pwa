@@ -471,10 +471,51 @@ export const ApoliceInsertForm = (props: any) => {
             disabled={props.isPosting}
           >
             {props.isPosting ? "AGUARDE..." : "CADASTRAR"}
-          </button>
+          </button><br/>
+          <Link to="/corretor" className="txt-primary" ><b>Voltar</b></Link>
         </div>
       </form>
     </div>
   </div>
   );
-}
+};
+
+export const TaskInsertForm = (props: any) => {
+  return(
+    <div
+      className="col-xs-10 col-xs-push-2 col-md-6 col-md-push-4 card"
+      style={{ padding: "10px" }}
+    >
+      <div className="card-header">
+        Tarefa
+      </div>
+      <div className="card-body">
+        <form onSubmit={(e:any) => e.preventDefault()}>
+          <div>
+            <div className="form-group">
+              <input type="text" name="titulo" placeholder="Título" maxLength={20} value={props.formData.titulo} onChange={(e:any) => props.handleChange(e)} required />
+            </div>
+            <div className="form-group">
+              <input type="text" name="cod_cliente" placeholder="CPF do cliente" maxLength={11} value={props.formData.cod_cliente} onChange={(e:any) => props.handleChange(e)} required /><br/>
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Data de Finalização</label>&nbsp;
+              <input type="date"  name="dt_final" value={props.formData.dt_final} onChange={(e:any) => props.handleChange(e)} required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Notificar por e-mail</label>&nbsp;
+              <input type="checkbox" name="notificar" value={props.formData.notificar} onChange={(e:any) => props.handleChange(e)} />
+            </div>
+            <div className="form-group">
+              <textarea name="descricao" maxLength={500} cols={25} rows={5} value={props.formData.descricao} placeholder="Descrição da tarefa" onChange={(e:any) => props.handleChange(e)} ></textarea>
+            </div>
+          </div>
+          <button className="btn btn-primary" onClick={(e: any) => props.handleSubmit(e)} >
+            Cadastrar
+          </button><br/>
+          <Link to="/corretor" className="txt-primary" ><b>Voltar</b></Link>
+        </form>
+      </div>
+    </div>
+  );
+};

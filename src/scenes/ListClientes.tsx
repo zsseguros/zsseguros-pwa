@@ -67,6 +67,7 @@ class ListCliente extends React.Component<any, any>{
                         <th>Ativo</th>
                         <th>#</th>
                         <th>#</th>
+                        <th>#</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -97,6 +98,11 @@ class ListCliente extends React.Component<any, any>{
                                         }
                                     });
                                   }} >DELETAR</button>
+                                </td>
+                                <td>
+                                  <Link to={`/corretor/cliente/alterar/${client.cod_cliente}`} >
+                                    <button onClick={(e: any) => this.props.selectClient(client)} className="btn btn-info">Alterar</button>
+                                  </Link>
                                 </td>
                               </tr>                      
                             )

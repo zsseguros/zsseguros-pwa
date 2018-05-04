@@ -1,9 +1,10 @@
 import * as React from 'react';
 import axios from 'axios';
 import swal from 'sweetalert2';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as moment from 'moment';
+import {selectClient} from 'appSrc/actions/clientsActions';
 
 class ClienteDetails extends React.Component<any, any>{
   constructor(props: any){
@@ -55,6 +56,12 @@ class ClienteDetails extends React.Component<any, any>{
     });
   }
 
+  componentDidUpdate(){
+    if (!this.props.selectedClient) {
+      this.props.history.push('/corretor');
+    }
+  }
+
   handleSelectApolice(e: any){
     const value = e.target.value;
 
@@ -89,7 +96,12 @@ class ClienteDetails extends React.Component<any, any>{
         <div className="card-body">
           <b>Possui { apolices ? apolices.length : 0 } apolices.</b> <br/>
           <b> { apolices ? `${this.checkApolicesExpiring(apolices) > 0 ? `Cuidado! ${this.checkApolicesExpiring(apolices)}` : ''}` : 0 } apolice(s) vence(m) até o próximo mês.</b><br/>
-          <div className="form-group"> <b>Apólice: </b> { apolices.map( (apolice, index) => <select className="form-control" key={Number(apolice.cod_apolice)} name="selectedApolice"> <option value={apolice.cod_apolice}> { apolice.cod_apolice } </option> </select> ) } </div>
+          <div className="form-group">
+            <b>Apólice: </b>
+            <select className="form-control" name="selectedApolice" onChange={(e:any) => this.handleSelectApolice(e)} >
+              { apolices.map( (apolice, index) => <option key={Number(apolice.cod_apolice)} value={apolice.cod_apolice}> { apolice.cod_apolice } </option> ) }
+            </select>
+          </div>
         </div>
       </div>
     )
@@ -171,8 +183,12 @@ class ClienteDetails extends React.Component<any, any>{
         </div>
         <div className="row">
           <div className="col-md-12 d-flex flex-row justify-content-center">
-            <button type="button" className="btn btn-warning mx-1 text-light">TAREFA</button>
-            <button type="button" className="btn btn-success mx-1">ALTERAR</button>
+            <Link to="/corretor/tarefas/adicionar" onClick={(e: any) => this.props.selectClient(this.props.selectedClient.cod_cliente)}>
+              <button type="button" className="btn btn-warning mx-1 text-light">TAREFA</button>
+            </Link>
+            <Link to={`/corretor/cliente/alterar/${this.props.selectedClient ? this.props.selectedClient.cod_cliente : '0'}`}>
+              <button type="button" className="btn btn-success mx-1">ALTERAR</button>
+            </Link>
             <button type="button" className="btn btn-danger mx-1">DELETAR</button>
           </div>
         </div>
@@ -190,4 +206,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect<any, any, any>(mapStateToProps, null)(ClienteDetails));
+export default withRouter(connect<any, any, any>(mapStateToProps, {selectClient})(ClienteDetails));

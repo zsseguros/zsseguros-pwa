@@ -42,7 +42,7 @@ class App extends React.Component<any, any> {
         }
         <div className="content-wrapper">
             <div className="col-12 h-100" style={{ marginTop: '100px' }} >
-              <div className="row h-100 d-flex justify-content-end">
+              <div className="row h-100 d-flex justify-content-center">
                 <Switch>
                   <Route
                     exact
