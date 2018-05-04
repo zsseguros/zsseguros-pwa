@@ -22,54 +22,6 @@ const NavBar = (props: any) => {
         <span className="navbar-toggler-icon" />
       </button>
       <div className="collapse navbar-collapse">
-        <ul className="navbar-nav navbar-sidenav">
-          <li
-            className="nav-item"
-            data-toggle="tooltip"
-            data-placement="right"
-            title="Dashboard"
-          >
-            <Link to="/corretor">
-              <i className="fas fa-columns mx-1" />
-              <span className="nav-link-text text-light mx-1">Dashboard</span>
-            </Link>
-          </li>
-
-          <li
-            className="nav-item"
-            data-toggle="tooltip"
-            data-placement="right"
-            title="Components"
-          >
-            <a
-              className="nav-link nav-link-collapse collapsed"
-              data-toggle="collapse"
-              href="#collapseComponents"
-              data-parent="#exampleAccordion"
-            >
-              <i className="fa fa-fw fa-wrench" />
-              <span className="nav-link-text">Components</span>
-            </a>
-            <ul
-              className="sidenav-second-level collapse"
-              id="collapseComponents"
-            >
-              <li>
-                <a href="navbar.html">Navbar</a>
-              </li>
-              <li>
-                <a href="cards.html">Cards</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <ul className="navbar-nav sidenav-toggler">
-          <li className="nav-item" onClick={e => props.toggleNavBar(e)}>
-            <a className="nav-link text-center" id="sidenavToggler">
-              <i className="fa fa-fw fa-angle-left" />
-            </a>
-          </li>
-        </ul>
         <ul className="navbar-nav ml-auto">
           {/* <li className="nav-item dropdown">
             <a

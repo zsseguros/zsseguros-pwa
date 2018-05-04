@@ -7,9 +7,7 @@ export const ApoliceUpdateForm = (props: any) => {
       className="col-xs-10 col-xs-push-2 col-md-6 col-md-push-4 card"
       style={{ padding: "10px" }}
     >
-    <div className="card-header">
-    Apólice
-    </div>
+    
     <div className="card-body">
     
       <form onSubmit={(e) => props.handleSubmit(e)} className="bg-light px-1">
@@ -101,7 +99,6 @@ export const ClientUpdateForm = (props: any) => {
           onSubmit={(e: any) => props.handleSubmit(e)}
           className="bg-light px-3 rounded"
         >
-            <h2>Cliente</h2>
           <div className="form-group">
             <label
               style={{
@@ -213,6 +210,7 @@ export const ClientUpdateForm = (props: any) => {
               maxLength={14}
               onChange={(e: any) => props.handleChange(e)}
               value={props.formData.cpf}
+              disabled
             />
           </div>
           <div className="form-group">

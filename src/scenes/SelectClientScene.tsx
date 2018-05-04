@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 const SelectClientScene = (props: any) => {
-  console.log(props)
   return (
     <div className="row">
       <div className="col-12 h-100 d-flex flex-column justify-content-center">
