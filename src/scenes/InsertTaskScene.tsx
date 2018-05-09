@@ -29,7 +29,8 @@ class InsertTask extends React.Component<any, any>{
       formData:{
         ...this.state.formData,
         cod_cliente: this.props.selectedClient || ''
-      }
+      },
+      isPosting: true
     });
   }
 
@@ -61,6 +62,10 @@ class InsertTask extends React.Component<any, any>{
   }
 
   postTask(payload: any){
+
+    this.setState({
+      isPosting: true
+    });
 
     const request = axios({
       method: 'post',

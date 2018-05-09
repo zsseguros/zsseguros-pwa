@@ -8,9 +8,18 @@ import NavBar from 'appSrc/components/NavBar';
 import swal from 'sweetalert2';
 import { connect } from "react-redux";
 import { Switch, Route, Link, withRouter } from "react-router-dom";
+import { getListTasksRequest } from 'appSrc/actions/clientsActions';
 
 class App extends React.Component<any, any> {
+  constructor(props: any){
+    super(props);
+
+    this.logOut = this.logOut.bind(this);
+  }
+
   componentDidMount() {
+    this.props.getListTasksRequest(null);
+
     if ( !localStorage.getItem('token') ) {
       this.props.history.push('/login/corretor');
     } else {
@@ -27,6 +36,11 @@ class App extends React.Component<any, any> {
     }
   }
 
+  logOut(){
+    localStorage.clear();
+    this.props.history.push("/login/corretor");
+  }
+
   render() {
     return (
       <div className="container-fluid">
@@ -37,7 +51,7 @@ class App extends React.Component<any, any> {
           </div>
           :
             <div className="col-4">
-              <NavBar toggleNavBar={(e: any) => this.toggleNavBar()} />
+              <NavBar logOut={this.logOut} getListTasksSuccess={this.props.getListTasksSuccess} toggleNavBar={(e: any) => this.toggleNavBar()} />
             </div>
         }
         <div className="content-wrapper">
@@ -71,4 +85,12 @@ class App extends React.Component<any, any> {
   }
 }
 
-export default withRouter(connect(null, { saveUser })(App));
+const mapStateToProps = (state: any) => {
+  return {
+    isGettingListTasks: state.client.isGettingListTasks,
+    getListTasksSuccess: state.client.getListTasksSuccess,
+    getListTasksError: state.client.getListTasksError,
+  }
+}
+
+export default withRouter(connect(mapStateToProps, { saveUser, getListTasksRequest })(App));

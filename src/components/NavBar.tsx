@@ -7,9 +7,9 @@ const NavBar = (props: any) => {
       className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
       id="mainNav"
     >
-      <a className="navbar-brand" href="index.html">
+      <Link className="navbar-brand" to="/corretor">
         ZSSEGUROS
-      </a>
+      </Link>
       <button
         className="navbar-toggler navbar-toggler-right"
         type="button"
@@ -23,7 +23,7 @@ const NavBar = (props: any) => {
       </button>
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav ml-auto">
-          {/* <li className="nav-item dropdown">
+           <li className="nav-item dropdown">
             <a
               className="nav-link dropdown-toggle mr-lg-2"
               id="messagesDropdown"
@@ -32,52 +32,47 @@ const NavBar = (props: any) => {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <i className="fa fa-fw fa-envelope" />
-              <span className="d-lg-none">
-                Messages
-                <span className="badge badge-pill badge-primary">12 New</span>
-              </span>
-              <span className="indicator text-primary d-none d-lg-block">
-                <i className="fa fa-fw fa-circle" />
-              </span>
+              <i className="fa fa-fw fa-envelope" ></i>
+              {
+                props.getListTasksSuccess && props.getListTasksSuccess.rows.length > 0 ?
+                  <span className="indicator text-primary d-none d-lg-block">
+                    <i className="fa fa-fw fa-circle" ></i>
+                  </span>
+                :
+                  null
+              }
             </a>
             <div className="dropdown-menu" aria-labelledby="messagesDropdown">
-              <h6 className="dropdown-header">New Messages:</h6>
-              <div className="dropdown-divider" />
-              <a className="dropdown-item" href="#">
-                <strong>David Miller</strong>
-                <span className="small float-right text-muted">11:21 AM</span>
-                <div className="dropdown-message small">
-                  Hey there! This new version of SB Admin is pretty awesome!
-                  These messages clip off when they reach the end of the box so
-                  they don't overflow over to the sides!
-                </div>
-              </a>
-              <div className="dropdown-divider" />
-              <a className="dropdown-item" href="#">
-                <strong>Jane Smith</strong>
-                <span className="small float-right text-muted">11:21 AM</span>
-                <div className="dropdown-message small">
-                  I was wondering if you could meet for an appointment at 3:00
-                  instead of 4:00. Thanks!
-                </div>
-              </a>
-              <div className="dropdown-divider" />
-              <a className="dropdown-item" href="#">
-                <strong>John Doe</strong>
-                <span className="small float-right text-muted">11:21 AM</span>
-                <div className="dropdown-message small">
-                  I've sent the final files over to you for review. When you're
-                  able to sign off of them let me know and we can discuss
-                  distribution.
-                </div>
-              </a>
-              <div className="dropdown-divider" />
-              <a className="dropdown-item small" href="#">
-                View all messages
-              </a>
+            {
+              props.getListTasksSuccess && props.getListTasksSuccess.rows.length > 0 ?
+                <span>
+                <h6 className="dropdown-header">Novas Tarefas:</h6>
+                  <div className="dropdown-divider" ></div>
+                  {
+                    props.getListTasksSuccess.rows.reverse().slice(0, 3).map( (task, index) => {
+                      return(
+                        <span className="dropdown-item" key={Number(task.cod_tarefa)}>
+                          <strong>{task.titulo}</strong><br/>
+                          <span className="small text-muted">Expira em: {task.dt_final}</span>
+                          <div className="dropdown-message small">
+                            {
+                              task.descricao
+                            }
+                          </div>
+                        </span>                        
+                      )
+                    })
+                  }
+                  <Link className="dropdown-item small" to="/corretor/tarefas/listar">
+                    Ver todas
+                  </Link>
+                </span>       
+            :
+              null
+            }
+              
             </div>
-          </li> */}
+          </li>
           {/* <li className="nav-item dropdown">
             <a
               className="nav-link dropdown-toggle mr-lg-2"
@@ -148,6 +143,7 @@ const NavBar = (props: any) => {
               className="nav-link"
               data-toggle="modal"
               data-target="#exampleModal"
+              onClick={(e: any) => props.logOut()}
             >
               <i className="fas fa-sign-out-alt" />&nbsp;Sair
             </a>

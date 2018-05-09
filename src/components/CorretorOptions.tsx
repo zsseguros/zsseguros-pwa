@@ -3,7 +3,7 @@ import {Link, withRouter} from 'react-router-dom';
 
 const CorretorOptions = (props: any) => {
   return (
-    <div className="col-md-12">
+    <div className="col-12">
       <div className="row">
         <div className="col-12 my-5">
           <h2>
@@ -12,7 +12,7 @@ const CorretorOptions = (props: any) => {
         </div>
       </div>
       <div className="row">
-        <div className="col-md-4">
+        <div className="col-md-5">
           <div className="card">
             <div className="card-body">
               <h2 className="card-header">
@@ -37,7 +37,7 @@ const CorretorOptions = (props: any) => {
             </div>
           </div>
         </div>
-        <div className="col-md-4">
+        <div className="col-md-5">
           <div className="card">
             <div className="card-body">
               <h2 className="card-header">
@@ -54,28 +54,6 @@ const CorretorOptions = (props: any) => {
               <Link style={{ color: '#ffffff', margin: '0px' }} to={`/corretor/incluirApolice?cod_cliente=${null}`}>
                 <button className="btn btn-primary m-1">
                   Adicionar apólice
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="card">
-            <div className="card-body">
-              <h2 className="card-header">
-                Tarefas
-              </h2>
-              <p className="card-text">
-                Gerencie suas terafas
-              </p>
-              <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/tarefas/listar">
-                <button className="btn btn-primary m-1">
-                  Listar tarefas
-                </button>
-              </Link>
-              <Link style={{ color: '#ffffff', margin: '0px' }} to="/corretor/tarefas/adicionar">
-                <button className="btn btn-primary m-1">
-                  Adicionar tarefa
                 </button>
               </Link>
             </div>

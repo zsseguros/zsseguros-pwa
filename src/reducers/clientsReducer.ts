@@ -5,7 +5,10 @@ const CLIENTS_STATE = {
   isGettingList: false,
   getListSuccess: null,
   getListError: null,
-  selectedClient: null
+  selectedClient: null,
+  isGettingListTasks: false,
+  getListTasksSuccess: null,
+  getListTasksError: null
 };
 
 export const client = (state = CLIENTS_STATE, action) => {
@@ -35,6 +38,27 @@ export const client = (state = CLIENTS_STATE, action) => {
       return {
         ...state,
         selectedClient: action.selectedClient
+      }
+    case types.GET_LIST_TASKS:
+      return {
+        ...state,
+        isGettingListTasks: true,
+        getListTasksSuccess: null,
+        getListTasksError: null        
+      }
+    case types.GET_LIST_TASKS_SUCCESS:
+      return {
+        ...state,
+        isGettingListTasks: false,
+        getListTasksSuccess: action.response,
+        getListTasksError: null
+      }
+    case types.GET_LIST_TASKS_ERROR:
+      return {
+        ...state,
+        isGettingListTasks: false,
+        getListTasksSuccess: null,
+        getListTasksError: action.error
       }
     default:
       return {

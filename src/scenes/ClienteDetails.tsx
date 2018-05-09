@@ -12,7 +12,8 @@ class ClienteDetails extends React.Component<any, any>{
 
     this.state = {
       clientDetails: null,
-      selectedApolice: null
+      selectedApolice: null,
+      cod_cliente: this.props.location.pathname.slice(18)
     }
   }
 
@@ -25,39 +26,62 @@ class ClienteDetails extends React.Component<any, any>{
       swal.showLoading()
       }
     });
+    
+    if ( !Number.isNaN(Number(this.props.location.pathname.slice(18))) ) {
 
-    if ( !this.props.selectedClient ) {
+      axios({
+        
+        method: 'get',
+        url: `http://localhost:8383/clientes/busca-detalhes/${ this.props.location.pathname.slice(18) }`
+        
+      }).then( (response: any) => {
+        
+        this.setState({
+          clientDetails: response.data,
+          selectedApolice: response.data.apolices.length > 0 ? response.data.apolices[0].cod_apolice : null
+        });
+        
+        swal.close();
+        
+      }).catch( (error: any) => {
+        swal({
+          type: 'error',
+          title: 'Oops...',
+          text: 'Cliente não encontrado \n'+error
+        });
+      });
+    } else if ( !this.props.selectedClient ) {
       swal.close();
 
       this.props.history.push('/corretor');
 
       return;
+    } else {
+      axios({
+        
+        method: 'get',
+        url: `http://localhost:8383/clientes/busca-detalhes/${ this.props.selectedClient.cod_cliente }`
+        
+      }).then( (response: any) => {
+        this.setState({
+          clientDetails: response.data,
+          selectedApolice: response.data.apolices.length > 0 ? response.data.apolices[0].cod_apolice : null
+        });
+        
+        swal.close();
+        
+      }).catch( (error: any) => {
+        swal({
+          type: 'error',
+          title: 'Oops...',
+          text: 'Cliente não encontrado \n'+error
+        });
+      });      
     }
-
-    axios({
-
-      method: 'get',
-      url: `http://localhost:8383/clientes/busca-detalhes/${ this.props.selectedClient.cod_cliente }`
-
-    }).then( (response: any) => {
-      this.setState({
-        clientDetails: response.data,
-        selectedApolice: response.data.apolices.length > 0 ? response.data.apolices[0].cod_apolice : null
-      });
-
-      swal.close();
-
-    }).catch( (error: any) => {
-      swal({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Cliente não encontrado \n'+error
-      });
-    });
   }
 
   componentDidUpdate(){
-    if (!this.props.selectedClient) {
+    if ( !this.props.selectedClient && Number.isNaN(Number(this.props.location.pathname.slice(18))) ) {
       this.props.history.push('/corretor');
     }
   }
@@ -183,7 +207,7 @@ class ClienteDetails extends React.Component<any, any>{
         </div>
         <div className="row">
           <div className="col-md-12 d-flex flex-row justify-content-center">
-            <Link to="/corretor/tarefas/adicionar" onClick={(e: any) => this.props.selectClient(this.props.selectedClient.cod_cliente)}>
+            <Link to="/corretor/tarefas/adicionar" onClick={(e: any) => this.props.selectClient( (this.props.selectedClient ? this.props.selectedClient.cod_cliente : null) || this.state.cod_cliente)}>
               <button type="button" className="btn btn-warning mx-1 text-light">TAREFA</button>
             </Link>
             <Link to={`/corretor/cliente/alterar/${this.props.selectedClient ? this.props.selectedClient.cod_cliente : '0'}`}>

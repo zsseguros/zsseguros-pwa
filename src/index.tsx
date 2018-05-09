@@ -19,7 +19,6 @@ const store = createStore(wholeState, composeEnhancers(applyMiddleware(thunk)));
 
 const subscriber = store.subscribe(() => {
   let serializedState = JSON.stringify(store.getState());
-  console.log("Serialized", serializedState, store.getState())
 });
 
 ReactDOM.render(

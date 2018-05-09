@@ -46,3 +46,43 @@ export const selectClient = (selectedClient: any) => {
     selectedClient
   }
 }
+
+const getListTasks = () => {
+  return {
+    type: types.GET_LIST_TASKS
+  }
+}
+
+const getListTasksSuccess = (response: any) => {
+  return {
+    type: types.GET_LIST_TASKS_SUCCESS,
+    response
+  }
+}
+
+const getListTasksError = (error: any) => {
+  return {
+    type: types.GET_LIST_TASKS_ERROR,
+    error
+  }
+}
+
+export const getListTasksRequest = (cod_cliente: string) => {
+  const request = axios({
+    method: 'GET',
+    url: cod_cliente ?
+        `http://localhost:8383/clientes/tarefa-lista/${cod_cliente}`
+      :
+        `http://localhost:8383/clientes/tarefa-lista`
+  });
+
+  return (dispatch: any) => {
+    dispatch(getListTasks());
+
+    return request.then( (response: any) => {
+      dispatch(getListTasksSuccess(response.data));
+    }).catch( (error: any) => {
+      dispatch(getListTasksError(error));
+    });
+  }
+}

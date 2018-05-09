@@ -86,17 +86,22 @@ class ListCliente extends React.Component<any, any>{
                                 <td> <button className="btn btn-danger" onClick={(e: any) => {
                                     swal({
                                       type: 'info',
-                                      title: 'ATENÇÃO!',
-                                      text: 'Tem certeza de que quer deletar este usuário?',
-                                      showConfirmButton: true,
-                                      confirmButtonText: 'Sim, deletar!',
-                                      showCancelButton: true,
-                                      cancelButtonText: 'Não, não estou seguro...'
-                                    }).then( (confirm) => {
-                                        if ( confirm.value ) {
-                                          alert('Deletado!');
-                                        }
+                                      title: 'Na, na, nina não...',
+                                      text: 'Por enquanto, para deletar usuários, você deve primeiro contatar o administrador do sistema!',
                                     });
+                                    // swal({
+                                    //   type: 'info',
+                                    //   title: 'ATENÇÃO!',
+                                    //   text: 'Tem certeza de que quer deletar este usuário?',
+                                    //   showConfirmButton: true,
+                                    //   confirmButtonText: 'Sim, deletar!',
+                                    //   showCancelButton: true,
+                                    //   cancelButtonText: 'Não, não estou seguro...'
+                                    // }).then( (confirm) => {
+                                    //     if ( confirm.value ) {
+                                    //       alert('Deletado!');
+                                    //     }
+                                    // });
                                   }} >DELETAR</button>
                                 </td>
                                 <td>

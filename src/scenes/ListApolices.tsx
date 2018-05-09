@@ -89,18 +89,23 @@ class ListApolices extends React.Component<any, any>{
                                     <td> { apolice.ativa ? "SIM" : "NÃO" } </td>
                                     <td> <button className="btn btn-danger" onClick={(e: any) => {
                                     swal({
-                                        type: 'info',
-                                        title: 'ATENÇÃO!',
-                                        text: 'Tem certeza de que quer deletar esta apólice?',
-                                        showConfirmButton: true,
-                                        confirmButtonText: 'Sim, deletar!',
-                                        showCancelButton: true,
-                                        cancelButtonText: 'Não, cancelar operação.'
-                                    }).then( (confirm) => {
-                                        if ( confirm.value ) {
-                                            alert('Deletado!');
-                                        }
-                                    });
+                                      type: 'info',
+                                      title: 'Na, na, nina não...',
+                                      text: 'Por enquanto, para deletar apólices, você deve primeiro contatar o administrador do sistema!',
+                                    });                                      
+                                    // swal({
+                                    //     type: 'info',
+                                    //     title: 'ATENÇÃO!',
+                                    //     text: 'Tem certeza de que quer deletar esta apólice?',
+                                    //     showConfirmButton: true,
+                                    //     confirmButtonText: 'Sim, deletar!',
+                                    //     showCancelButton: true,
+                                    //     cancelButtonText: 'Não, cancelar operação.'
+                                    // }).then( (confirm) => {
+                                    //     if ( confirm.value ) {
+                                    //         alert('Deletado!');
+                                    //     }
+                                    // });
                                     }} >DELETAR</button> </td>
                                     <td>
                                       <Link to={`/corretor/apolice/alterar/${apolice.cod_apolice}`} >
