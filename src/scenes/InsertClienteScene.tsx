@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { ClientInsertForm, ContactInsertForm } from 'appSrc/components/InsertForms';
 import swal from 'sweetalert2';
+import { configs } from 'appSrc/actions/configs';
 
 interface InsertClienteState {
   formData: {
@@ -122,7 +123,7 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
       }
     });
 
-    const request = instance.post(`http://localhost:8383/clientes/insere`, payload);
+    const request = instance.post(`${configs.api}clientes/insere`, payload);
 
     request.then( (response: any) => {
 

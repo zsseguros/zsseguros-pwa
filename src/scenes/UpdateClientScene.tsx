@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import {ClientUpdateForm} from 'appSrc/components/UpdateFormsComponents'; 
 import swal from 'sweetalert2';
-import { selectClient } from '../actions/clientsActions';
+import { selectClient } from 'appSrc/actions/clientsActions';
+import { configs } from 'appSrc/actions/configs';
 
 interface UpdateClientState {
   formData: {
@@ -125,7 +126,7 @@ class UpdateClient extends React.Component<UpdateClientProps, UpdateClientState>
       }
     });
 
-    const request = instance.put(`http://localhost:8383/clientes/altera/${this.props.selectedClient.cod_cliente}`, payload);
+    const request = instance.put(`${configs.api}clientes/altera/${this.props.selectedClient.cod_cliente}`, payload);
 
     request.then( (response: any) => {
 

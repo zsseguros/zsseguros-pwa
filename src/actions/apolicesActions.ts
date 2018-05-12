@@ -1,5 +1,6 @@
 import types from '../actionTypes';
 import axios from 'axios';
+import { configs } from 'appSrc/actions/configs';
 
 const getApolicesList = () => {
     return {
@@ -28,7 +29,7 @@ export const getApolicesListRequest = () => {
         }
     });
 
-    const request = instance.get(`http://localhost:8383/apolices/lista`);
+    const request = instance.get(`${configs.api}apolices/lista`);
 
     return (dispatch: any) => {
         dispatch(getApolicesList());

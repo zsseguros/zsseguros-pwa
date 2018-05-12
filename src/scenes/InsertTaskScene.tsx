@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import swal from 'sweetalert2';
 import {withRouter} from 'react-router-dom';
 import { getListTasksRequest } from 'appSrc/actions/clientsActions';
+import { configs } from 'appSrc/actions/configs';
 
 class InsertTask extends React.Component<any, any>{
   constructor(props: any){
@@ -70,7 +71,7 @@ class InsertTask extends React.Component<any, any>{
 
     const request = axios({
       method: 'post',
-      url: `http://localhost:8383/clientes/tarefa-insere`,
+      url: `${configs.api}clientes/tarefa-insere`,
       data: payload
     }).then( (response: any) => {
       this.setState({

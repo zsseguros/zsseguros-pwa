@@ -5,6 +5,7 @@ import {withRouter, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as moment from 'moment';
 import {selectClient} from 'appSrc/actions/clientsActions';
+import { configs } from 'appSrc/actions/configs';
 
 class ClienteDetails extends React.Component<any, any>{
   constructor(props: any){
@@ -32,7 +33,7 @@ class ClienteDetails extends React.Component<any, any>{
       axios({
         
         method: 'get',
-        url: `http://localhost:8383/clientes/busca-detalhes/${ this.props.location.pathname.slice(18) }`
+        url: `${configs.api}clientes/busca-detalhes/${ this.props.location.pathname.slice(18) }`
         
       }).then( (response: any) => {
         
@@ -60,7 +61,7 @@ class ClienteDetails extends React.Component<any, any>{
       axios({
         
         method: 'get',
-        url: `http://localhost:8383/clientes/busca-detalhes/${ this.props.selectedClient.cod_cliente }`
+        url: `${configs.api}clientes/busca-detalhes/${ this.props.selectedClient.cod_cliente }`
         
       }).then( (response: any) => {
         this.setState({

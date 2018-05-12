@@ -7,6 +7,7 @@ import swal from 'sweetalert2';
 import * as moment from 'moment';
 import SelectClientScene from './SelectClientScene';
 import { getListClientsRequest } from 'appSrc/actions/clientsActions';
+import { configs } from 'appSrc/actions/configs';
 
 interface InsertApoliceState {
   formData: {
@@ -187,8 +188,8 @@ class InsertApolice extends React.Component<any, InsertApoliceState>{
       }
     });
 
-    const request = instance.post(`http://localhost:8383/apolices/insere`, payload);
-    // const request = instance.post(`http://localhost:8383/`, payload);
+    const request = instance.post(`${configs.api}apolices/insere`, payload);
+    // const request = instance.post(`${configs.api}`, payload);
 
     request.then( (response: any) => {
 

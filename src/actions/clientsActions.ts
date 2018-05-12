@@ -1,5 +1,6 @@
 import types from '../actionTypes';
 import axios from 'axios';
+import { configs } from 'appSrc/actions/configs';
 
 const getListClients = () => {
   return {
@@ -27,7 +28,7 @@ export const getListClientsRequest = () => {
     }
   });
 
-  const request = instance.get(`http://localhost:8383/clientes/lista`);
+  const request = instance.get(`${configs.api}clientes/lista`);
 
   return (dispatch) => {
     dispatch(getListClients());
@@ -71,9 +72,9 @@ export const getListTasksRequest = (cod_cliente: string) => {
   const request = axios({
     method: 'GET',
     url: cod_cliente ?
-        `http://localhost:8383/clientes/tarefa-lista/${cod_cliente}`
+        `${configs.api}clientes/tarefa-lista/${cod_cliente}`
       :
-        `http://localhost:8383/clientes/tarefa-lista`
+        `${configs.api}clientes/tarefa-lista`
   });
 
   return (dispatch: any) => {

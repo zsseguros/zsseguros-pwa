@@ -6,6 +6,7 @@ import { ApoliceUpdateForm } from 'appSrc/components/UpdateFormsComponents';
 import swal from 'sweetalert2';
 import * as moment from 'moment';
 import types from '../actionTypes';
+import { configs } from 'appSrc/actions/configs';
 
 interface UpdateApoliceState {
   formData: {
@@ -113,7 +114,7 @@ class UpdateApolice extends React.Component<UpdateApoliceProps, UpdateApoliceSta
       }
     });
 
-    const request = instance.put(`http://localhost:8383/apolices/altera/${payload.cod_apolice}`, payload);
+    const request = instance.put(`${configs.api}apolices/altera/${payload.cod_apolice}`, payload);
 
     request.then( (response: any) => {
 
