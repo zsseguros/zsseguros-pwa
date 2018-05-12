@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Link} from 'react-router-dom';
 
-export const ClientInserForm = (props: any) => {
+export const ClientInsertForm = (props: any) => {
 
   return (
     <div

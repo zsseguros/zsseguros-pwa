@@ -21,6 +21,7 @@ class ListApolices extends React.Component<any, any>{
         title: 'AGUARDE!',
         type: 'info',
         text: 'Buscando suas apolices...',
+        allowOutsideClick: false,        
         onOpen: () => {
         swal.showLoading()
         }
@@ -36,6 +37,19 @@ class ListApolices extends React.Component<any, any>{
             title: 'Oops...',
             type: 'error',
             text: 'Não foi possível buscar suas apólices, certifique-se de que há conexão com a internet.',
+            allowOutsideClick: false            
+          });
+        }
+    }
+    if ( this.props.isGettingList && !nextProps.isGettingList ) {
+        swal.close();
+
+        if ( nextProps.getListSuccess && nextProps.getListSuccess.rows && nextProps.getListSuccess.rows.length < 1 ) {
+          swal({
+            title: 'Nenhuma apólice!',
+            type: 'error',
+            text: 'Não existe nenhuma apólice na lista!',
+            allowOutsideClick: false
           });
         }
     }
@@ -123,6 +137,9 @@ class ListApolices extends React.Component<any, any>{
                 </div>      
               </div>  
             </div>
+          </div>
+          <div className="row d-flex justify-content-center my-5">
+            <Link to="/corretor" >Voltar</Link>
           </div>
         </div>
       );

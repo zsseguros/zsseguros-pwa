@@ -5,6 +5,7 @@ import {TaskInsertForm} from 'appSrc/components/InsertForms';
 import {connect} from 'react-redux';
 import swal from 'sweetalert2';
 import {withRouter} from 'react-router-dom';
+import { getListTasksRequest } from 'appSrc/actions/clientsActions';
 
 class InsertTask extends React.Component<any, any>{
   constructor(props: any){
@@ -81,6 +82,8 @@ class InsertTask extends React.Component<any, any>{
         type: 'success',
         title: 'Tarefa criada com sucesso!',
       }).then( (confirm) => {
+        this.props.getListTasksRequest(null);
+
         this.props.history.push('/corretor');
       });
     })
@@ -130,4 +133,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, null)(InsertTask));
+export default withRouter(connect(mapStateToProps, {getListTasksRequest})(InsertTask));
