@@ -88,7 +88,8 @@ class Login extends React.Component<any, LoginState>{
 
           swal({
             type: 'success',
-            title: 'logged in!'
+            title: 'logged in!',
+            allowOutsideClick: false
           }).then( (confirm) => {
             if (confirm.value) {
               this.props.history.push(this.state.userType === 0 ? '/cliente' : '/corretor');
@@ -104,7 +105,8 @@ class Login extends React.Component<any, LoginState>{
           swal({
             type: 'error',
             title: 'Falha no login!',
-            text: 'Usuário não encontrado!'
+            text: 'Usuário não encontrado!',
+            allowOutsideClick: false
           });
         }
   

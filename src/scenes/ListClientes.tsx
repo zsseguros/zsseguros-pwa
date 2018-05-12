@@ -21,6 +21,7 @@ class ListCliente extends React.Component<any, any>{
       title: 'AGUARDE!',
       type: 'info',
       text: 'Buscando seus clientes...',
+      allowOutsideClick: false,
       onOpen: () => {
         swal.showLoading()
       }
@@ -36,9 +37,24 @@ class ListCliente extends React.Component<any, any>{
           title: 'Oops...',
           type: 'error',
           text: 'Não foi possível buscar uma lista de clientes, certifique-se de que você está conectado à internet!',
+          allowOutsideClick: false
         });
       }
     }
+
+    if ( this.props.isGettingList && !nextProps.isGettingList ) {
+      swal.close();
+
+      if ( nextProps.getListSuccess && nextProps.getListSuccess.rows && nextProps.getListSuccess.rows.length < 1 ) {
+        swal({
+          title: 'Nenhum cliente!',
+          type: 'error',
+          text: 'Não existe nenhum cliente na lista!',
+          allowOutsideClick: false
+        });
+      }
+    }
+    
   }
 
   componentWillUnmount(){

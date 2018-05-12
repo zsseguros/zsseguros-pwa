@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import * as moment from 'moment';
 
 const NavBar = (props: any) => {
   return (
@@ -53,7 +54,7 @@ const NavBar = (props: any) => {
                       return(
                         <span className="dropdown-item" key={Number(task.cod_tarefa)}>
                           <strong>{task.titulo}</strong><br/>
-                          <span className="small text-muted">Expira em: {task.dt_final}</span>
+                          <span className="small text-muted">Expira em: {moment(task.dt_final).format('DD-MM-YYYY')}</span>
                           <div className="dropdown-message small">
                             {
                               task.descricao

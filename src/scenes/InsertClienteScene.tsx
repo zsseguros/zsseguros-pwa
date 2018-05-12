@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { ClientInserForm, ContactInsertForm } from 'appSrc/components/InsertForms';
+import { ClientInsertForm, ContactInsertForm } from 'appSrc/components/InsertForms';
 import swal from 'sweetalert2';
 
 interface InsertClienteState {
@@ -167,7 +167,7 @@ class InsertCliente extends React.Component<any, InsertClienteState>{
   showForms(state: InsertClienteState){
     switch (state.step) {
       case 0:
-        return <ClientInserForm uf_list={this.state.formData.uf_list || []} formData={state.formData} handleChange={(e) => this.handleChange(e)} handleSubmit={(e) => this.handleSubmit(e)} isPosting={this.state.isPosting} />
+        return <ClientInsertForm uf_list={this.state.formData.uf_list || []} formData={state.formData} handleChange={(e) => this.handleChange(e)} handleSubmit={(e) => this.handleSubmit(e)} isPosting={this.state.isPosting} />
       case 1:
         // return <ContactInsertForm handleChange={(e) => this.handleChange(e)} handleSubmit={(e) => this.handleSubmit(e)} isPosting={this.state.isPosting} />
       default:
