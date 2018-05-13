@@ -137,6 +137,9 @@ class ListCliente extends React.Component<any, any>{
               </div>  
             </div>
           </div>
+          <div className="row d-flex justify-content-center my-5">
+            <Link to="/corretor" >Voltar</Link>
+          </div>          
         </div>
       );
   }

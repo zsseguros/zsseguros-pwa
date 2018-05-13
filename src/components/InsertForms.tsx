@@ -513,7 +513,7 @@ export const TaskInsertForm = (props: any) => {
           <button className="btn btn-primary" onClick={(e: any) => props.handleSubmit(e)} >
             Cadastrar
           </button><br/>
-          <Link to="/corretor" className="txt-primary" ><b>Voltar</b></Link>
+          <Link to={`/corretor/cliente/${props.formData.cod_cliente}`} className="txt-primary" ><b>Voltar</b></Link>
         </form>
       </div>
     </div>
