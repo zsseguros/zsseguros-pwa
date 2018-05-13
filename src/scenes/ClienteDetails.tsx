@@ -208,12 +208,11 @@ class ClienteDetails extends React.Component<any, any>{
         <div className="row">
           <div className="col-md-12 d-flex flex-row justify-content-center">
             <Link to="/corretor/tarefas/adicionar" onClick={(e: any) => this.props.selectClient( (this.props.selectedClient ? this.props.selectedClient.cod_cliente : null) || this.state.cod_cliente)}>
-              <button type="button" className="btn btn-warning mx-1 text-light">TAREFA</button>
+              <button type="button" className="btn btn-info mx-1 text-light">ADICIONAR TAREFA</button>
             </Link>
             <Link to={`/corretor/cliente/alterar/${this.props.selectedClient ? this.props.selectedClient.cod_cliente : '0'}`}>
               <button type="button" className="btn btn-success mx-1">ALTERAR</button>
             </Link>
-            <button type="button" className="btn btn-danger mx-1">DELETAR</button>
           </div>
         </div>
       </div>
